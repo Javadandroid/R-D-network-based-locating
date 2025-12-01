@@ -47,9 +47,9 @@ In 3G, all towers transmit on the same frequency simultaneously using unique cod
 
 <br/><br/>
 
-# <code style="color: greenyellow">
+$${\color{red}Welcome
 # 3. Generation 4 (LTE) Positioning Mechanics(eNodeB)
-# </code>
+}
 
 
 ## Communication Mechanism (OFDMA & PRS)
