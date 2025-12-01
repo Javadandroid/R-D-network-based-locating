@@ -1,0 +1,94 @@
+{
+  "gnssInfo": {
+    "clock": {},
+    "measurements": []
+  },
+  "location": {
+    "fused": {
+      "time": 1764486189327,
+      "speed": 0,
+      "extras": "Bundle[mParcelledData.dataSize=592]",
+      "bearing": 0,
+      "accuracy": 12199.999,
+      "altitude": 0,
+      "latitude": 35.6875261,
+      "provider": "fused",
+      "longitude": 51.4265288,
+      "speedAccuracyMetersPerSecond": 1.5
+    },
+    "providers": {
+      "gps": {
+        "time": "",
+        "speed": "",
+        "bearing": "",
+        "accuracy": "",
+        "altitude": "",
+        "latitude": "",
+        "provider": "",
+        "longitude": ""
+      },
+      "network": {
+        "time": 1764486130480,
+        "speed": 0,
+        "bearing": 0,
+        "accuracy": 12229.217,
+        "altitude": 0,
+        "latitude": 35.6875261,
+        "provider": "network",
+        "longitude": 51.4265288
+      },
+      "passive": {
+        "time": 1764486130480,
+        "speed": 0,
+        "bearing": 0,
+        "accuracy": 12229.217,
+        "altitude": 0,
+        "latitude": 35.6875261,
+        "provider": "network",
+        "longitude": 51.4265288
+      }
+    }
+  },
+  "correctLoc": {},
+  "deviceInfo": {
+    "ID": "QKQ1.190825.002",
+    "SDK": 29,
+    "Base": 1,
+    "Host": "c4-miui-ota-bd44.bj",
+    "Type": "user",
+    "User": "builder",
+    "Board": "davinci",
+    "Brand": "Xiaomi",
+    "Model": "Mi 9T",
+    "Device": "davinci",
+    "DeviceID": "android_id",
+    "Android_ID": "f4336ac9c1bf01ac",
+    "FingerPrint": "Xiaomi/davinci/davinci:10/QKQ1.190825.002/V12.0.9.0.QFJMIXM:user/release-keys",
+    "Incremental": "V12.0.9.0.QFJMIXM",
+    "Manufacture": "Xiaomi",
+    "Version Code": "10"
+  },
+  "availableWifi": {
+    "RSSI": -56,
+    "SSID": "\"One-Pub\"",
+    "BSSID": "78:72:5d:44:e7:2f",
+    "frequency": 5765,
+    "scanResults": "[SSID: MZW, BSSID: 78:72:5d:44:e7:2e, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT][WFA-VHT], level: -55, frequency: 5765, timestamp: 10588085612, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-55], SSID: One-Pub, BSSID: 78:72:5d:44:e7:2f, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT][WFA-VHT], level: -56, frequency: 5765, timestamp: 10588520000, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-56], SSID: Mi Phone, BSSID: 2e:33:24:fd:8a:0c, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT][WFA-VHT], level: -62, frequency: 2462, timestamp: 10584091476, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-62], SSID: One-Pub, BSSID: 78:72:5d:44:ed:c0, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT], level: -77, frequency: 2412, timestamp: 10583128847, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-77], SSID: MZW, BSSID: 78:72:5d:44:ed:c1, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT], level: -77, frequency: 2412, timestamp: 10583133056, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-77], SSID: One-Pub, BSSID: 78:72:5d:44:ed:cf, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT][WFA-VHT], level: -78, frequency: 5320, timestamp: 10585639843, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-78], SSID: MZW, BSSID: 78:72:5d:44:ed:ce, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT][WFA-VHT], level: -81, frequency: 5320, timestamp: 10585641864, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-81], SSID: One-Pub, BSSID: 78:72:5d:44:85:0f, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT][WFA-VHT], level: -81, frequency: 5805, timestamp: 10588416589, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-81], SSID: One-Pub, BSSID: 78:72:5d:25:15:2f, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT][WFA-VHT], level: -88, frequency: 5805, timestamp: 10588404412, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-88], SSID: MZW, BSSID: 78:72:5d:25:15:2e, capabilities: [WPA2-PSK-CCMP][RSN-PSK-CCMP][ESS][WFA-HT][WFA-VHT], level: -88, frequency: 5805, timestamp: 10588412664, distance: ?(cm), distanceSd: ?(cm), passpoint: no, ChannelBandwidth: 0, centerFreq0: 0, centerFreq1: 0, 80211mcResponder: is not supported, Carrier AP: no, Carrier AP EAP Type: -1, Carrier name: null, Radio Chain Infos: [RadioChainInfo: id=0, level=-88]]"
+  },
+  "cellTowerInfo": {
+    "simState": 5,
+    "callState": 0,
+    "dataState": 0,
+    "phoneType": 1,
+    "allCellInfo": "[CellInfoLte:{mRegistered=YES mTimeStamp=10588187852577ns mCellConnectionStatus=0 CellIdentityLte:{ mBandwidth=20000 mMcc=432 mMnc=11 mAlphaLong=IR-MCI mAlphaShort=IR-MCI} CellSignalStrengthLte: rssi=-51 rsrp=-60 rsrq=-5 rssnr=2147483647 cqi=2147483647 ta=2147483647 miuiLevel=5 level=4 android.telephony.CellConfigLte :{ isEndcAvailable = false }}, CellInfoGsm:{mRegistered=NO mTimeStamp=10588187852577ns mCellConnectionStatus=0 CellIdentityGsm mMcc=null mMnc=null mAlphaLong= mAlphaShort=} CellSignalStrengthGsm: rssi=-113 ber=2147483647 mTa=2147483647 miuiLevel=0 mLevel=0}, CellInfoGsm:{mRegistered=NO mTimeStamp=10588187852577ns mCellConnectionStatus=0 CellIdentityGsm mMcc=null mMnc=null mAlphaLong= mAlphaShort=} CellSignalStrengthGsm: rssi=-113 ber=2147483647 mTa=2147483647 miuiLevel=0 mLevel=0}, CellInfoGsm:{mRegistered=NO mTimeStamp=6994994175998ns mCellConnectionStatus=0 CellIdentityGsm mMcc=432 mMnc=35 mAlphaLong=Irancell mAlphaShort=Irancell} CellSignalStrengthGsm: rssi=-99 ber=2147483647 mTa=1 miuiLevel=3 mLevel=2}, CellInfoGsm:{mRegistered=NO mTimeStamp=6994994175998ns mCellConnectionStatus=0 CellIdentityGsm mMcc=null mMnc=null mAlphaLong=000000 mAlphaShort=} CellSignalStrengthGsm: rssi=-101 ber=2147483647 mTa=2147483647 miuiLevel=3 mLevel=2}]",
+    "simOperator": "43211",
+    "dataActivity": 3,
+    "simCountryIso": "ir",
+    "networkOperator": "43211",
+    "networkTypeName": 13,
+    "simOperatorName": "IR-MCI",
+    "isNetworkRoaming": false,
+    "networkOperatorName": "IR-MCI",
+    "deviceSoftwareVersion": "00"
+  }
+}
