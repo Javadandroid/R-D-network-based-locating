@@ -1,0 +1,74 @@
+Raw JSON Data
+
+بسیار عالی. این دیتای خامی که فرستادی (Raw JSON Data)، طلاست! این دقیقاً همون چیزیه که سیستم‌عامل اندروید از لایه‌های پایین سخت‌افزار مودم (Modem/Baseband) می‌گیره.
+
+کلیدواژه‌های جستجو برای مقالات این بخش:
+
+RSS-based Trilateration Algorithm
+
+Path Loss Exponent Estimation in Urban Environments
+
+Cellular Positioning utilizing Timing Advance (TA)
+
+Weighted Least Squares for Localization
+
+دیتای ورودی: همین JSON که داری.
+
+Lookup: با استفاده از APIهایی مثل Mozilla Location Service، مختصات دکل‌هایی که CellID اون‌ها رو می‌بینی بگیر.
+
+Distance Estimation:
+
+برای LTE: استفاده از فرمول Log-Distance روی rsrp.
+
+برای GSM: استفاده از mTa (Timing Advance).
+
+Positioning Algorithm: استفاده از الگوریتم Weighted Least Squares (WLS). چرا Weighted؟ چون دکلی که سیگنال قوی‌تر داره (مثل اون LTE با -60) باید تاثیر بی
+
+کلیدواژه‌های تخصصی برای سرچ مقالات 5G
+اگر میخوای در این زمینه (5G Positioning) مقاله بخونی، باید دنبال این عبارت‌ها بگردی (چون با عبارات 4G فرق دارن):
+
+5G NR Positioning: عبارت کلی برای مکان‌یابی در استاندارد جدید.
+
+mmWave Localization / Positioning: مکان‌یابی با امواج میلی‌متری (دقت در حد سانتی‌متر!).
+
+Beam Management / Beam Alignment: استفاده از پرتوها برای پیدا کردن جهت کاربر.
+
+Hybrid AoA/ToF Positioning: ترکیب زاویه و زمان پرواز (دقیق‌ترین روش موجود).
+
+PRS (Positioning Reference Signal): سیگنال‌های مخصوصی که در 5G فقط برای مکان‌یابی ارسال می‌شن و نویز دیتا رو ندارن.
+
+https://github.com/gante/mmWave-localization-learning
+
+
+Name	Required	Description
+latitude	*	Latitude of data point in Decimal Degrees (ex. 49.231).
+longitude	*	Longitude of data point in Decimal Degrees (ex. -123.1232).
+altitude	*	Altitude, in metres
+MCC	*	Mobile Country Code
+MNC	*	Mobile Network Code
+LAC	*	Location Area Code / Tracking Area Code (TAC)
+CID	*	Full Cell ID / Cell Identifier (CI, not CGI for LTE)
+Signal	*	RSSI Signal strength in dBm / RSRP for LTE
+type	*	one of: GSM,UMTS,CDMA, or LTE
+subtype	*	for GSM above: GPRS, EDGE
+for UMTS above: UMTS, HSDPA, HSUPA, HSPA, HSPA+, DC-HSPA+
+
+for LTE above: LTE, LTE-A
+
+for CDMA above: CDMA, 1xRTT, EVDO, EHRPD
+
+ARFCN		Number representing 3GPP ARFCN/EARFCN/UARFCN (frequency)
+PSC or PCI		UMTS Primary Scrambling Code or LTE Physical Cell Identity
+
+
+Neighbor cells
+AT+CCED=0,2
+
+The report is in the following format:
+
++CCED:LTE neighbor cell:<MCC>,<MNC>,<frequency>,<cellid>,<rsrp>,<rsrq>,<tac>,<SrxLev>,<pcid>
+
++CCED:GSM neighbor cellinfo:<MCC>,<MNC>,<lac>,<cellid>,<bsic>,<rxlev>
+
+Google Geolocation API یا Unwired Labs
+"War Driving
