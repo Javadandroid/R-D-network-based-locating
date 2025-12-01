@@ -69,7 +69,7 @@ LTE utilizes an **OFDMA** structure, treating the frequency spectrum as a time-f
 
 # ${\color{#FEEE91}\textsf{4. Generation 5 (5G NR) Positioning Mechanics(gNodeB)}}$
 
-## ${\color{#8CE4FF}\textsf{Communication Mechanism (Beamforming \& Sweeping)}}$
+## ${\color{#8CE4FF}\textsf{Communication Mechanism (Beamforming \\& Sweeping)}}$
 
 5G introduces a paradigm shift from omnidirectional broadcasting to directional **Beamforming**.
 
