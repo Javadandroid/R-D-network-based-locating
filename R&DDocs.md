@@ -165,3 +165,20 @@ Uses the *Time Difference of Arrival* of signals from multiple synchronized towe
 * **Concept:** Intersection of hyperbolas.
 * **Mechanism:** If a signal from Tower A arrives $1\mu s$ before Tower B, the user is located on a specific hyperbolic curve relative to them.
 * **Accuracy:** High, but requires precise nanosecond-level synchronization between towers.
+
+## ${\color{#8CE4FF}\textsf{D) The High-Rise Challenge (3D Positioning Error) 🏢}}$
+
+**Scenario:** When the user is in a skyscraper or high-rise building.
+**The Problem:** Standard algorithms assume a 2D plane ($z_{user} \approx z_{tower}$). High altitude causes two major errors:
+1.  **Slant Range Error:** The measured distance is the hypotenuse, not the ground distance.
+2.  **Overshooting:** The device connects to a distant tower (LoS) instead of the nearest one (which is downtilted towards the street), causing massive location jumps (e.g., >500m).
+
+**Algorithmic Fix (Heuristic):**
+If available, use the device's **Barometer** sensor to detect altitude changes relative to ground pressure.
+
+* **Formula Adjustment:**
+    Apply a heavier **Path Loss Exponent ($n$)** for high altitudes. Signals at height usually travel through free space (LoS) rather than urban clutter, so standard urban models ($n=3.5$) fail.
+    * *Street Level:* $n \approx 3.5 - 4.0$
+    * *High-Rise (LoS):* $n \approx 2.0 - 2.5$
+
+* **Logic Check:** If `Altitude` is high AND `RSRP` is strong but `TA` (Timing Advance) indicates a large distance, flag the location as "Low Confidence - High Rise Overshoot".
