@@ -1,4 +1,8 @@
+import logging
 from ..models import CellTower
+
+logger = logging.getLogger(__name__)
+
 
 def fetch_and_save_tower(mcc, mnc, cell_id, lac, pci=None):
     """
@@ -9,21 +13,21 @@ def fetch_and_save_tower(mcc, mnc, cell_id, lac, pci=None):
     """
     
     # 1. جستجو در دیتابیس محلی
-    if lac:
-        try:
-            tower = CellTower.objects.get(mcc=mcc, mnc=mnc, cell_id=cell_id, lac=lac)
-            return tower, "LOCAL_DB"
-        except CellTower.DoesNotExist:
-            pass
-    
-    # 2. جستجو بدون LAC (Fallback)
     try:
+        if lac:
+            try:
+                tower = CellTower.objects.get(mcc=mcc, mnc=mnc, cell_id=cell_id, lac=lac)
+                return tower, "LOCAL_DB"
+            except CellTower.DoesNotExist:
+                pass
+
+        # 2. جستجو بدون LAC (Fallback)
         tower = CellTower.objects.filter(mcc=mcc, mnc=mnc, cell_id=cell_id).first()
         if tower:
             return tower, "LOCAL_DB"
-    except:
-        pass
-    
+    except Exception as e:
+        logger.exception("Error querying local DB for tower: %s", e)
+
     # 3. اگر پیدا نشد، یک موقت برگردان (برای توسعه و تست)
     # این موارد از مختصات تهران استفاده می‌کند
     class MockTower:

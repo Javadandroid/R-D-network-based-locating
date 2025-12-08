@@ -177,3 +177,14 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+# ==================== Positioning / Path-Loss Defaults ====================
+# These defaults can be overridden via environment-specific settings.
+PATH_LOSS = {
+    # Default transmit power (dBm) to use when tower TX unknown
+    'TX_DEFAULT': 40,
+    # Default path-loss exponent for dense urban areas (calibrated)
+    'N_DEFAULT': 2.6145,
+    # Reference loss at 1 meter (dB)
+    'REF_LOSS': 80,
+}

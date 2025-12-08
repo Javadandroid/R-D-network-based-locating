@@ -32,6 +32,11 @@ class CellInputSerializer(serializers.Serializer):
     signalStrength = serializers.IntegerField(
         help_text="قدرت سیگنال RSRP (dBm) - منفی است"
     )
+    timingAdvance = serializers.IntegerField(
+        required=False,
+        allow_null=True,
+        help_text="Timing Advance (TA) if available"
+    )
     lac = serializers.IntegerField(
         required=False,
         allow_null=True,
@@ -77,6 +82,26 @@ class DebugInfoSerializer(serializers.Serializer):
     signal = serializers.IntegerField(
         help_text="قدرت سیگنال استفاده شده (dBm)"
     )
+    confidence = serializers.CharField(
+        help_text="سطح اعتماد (high/medium/low)",
+        required=False,
+        allow_null=True
+    )
+
+
+class CalibrationRequestSerializer(serializers.Serializer):
+    tower_lat = serializers.FloatField()
+    tower_lon = serializers.FloatField()
+    rsrp = serializers.IntegerField()
+    user_lat = serializers.FloatField()
+    user_lon = serializers.FloatField()
+    tx = serializers.IntegerField(required=False, allow_null=True)
+    ref_loss = serializers.FloatField(required=False, allow_null=True)
+
+
+class CalibrationResponseSerializer(serializers.Serializer):
+    n_effective = serializers.FloatField()
+    details = serializers.DictField(child=serializers.CharField(), required=False)
 
 
 class LocateUserResponseSerializer(serializers.Serializer):

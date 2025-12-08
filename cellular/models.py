@@ -28,6 +28,11 @@ class CellTower(models.Model):
         default=40,  # مقدار پیش‌فرض اگر خالی باشد
         help_text="Transmission Power in dBm (Default: 40 for Urban Macro)"
     )
+    antenna_azimuth = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text="Optional antenna azimuth (degrees 0-360) for this tower"
+    )
     
     # --- متادیتای سیستم ---
     SOURCE_CHOICES = [
