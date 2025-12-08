@@ -104,6 +104,20 @@ class CalibrationResponseSerializer(serializers.Serializer):
     details = serializers.DictField(child=serializers.CharField(), required=False)
 
 
+class RefLossRequestSerializer(serializers.Serializer):
+    earfcn = serializers.IntegerField(required=False, allow_null=True)
+    freq_mhz = serializers.FloatField(required=False, allow_null=True)
+    gt_dbi = serializers.FloatField(required=False, default=15.0)
+    gr_dbi = serializers.FloatField(required=False, default=0.0)
+    system_losses_db = serializers.FloatField(required=False, default=3.0)
+
+
+class RefLossResponseSerializer(serializers.Serializer):
+    freq_mhz = serializers.FloatField()
+    ref_loss_db = serializers.FloatField()
+    details = serializers.DictField(child=serializers.CharField(), required=False)
+
+
 class LocateUserResponseSerializer(serializers.Serializer):
     """پاسخ موقعیت‌یابی"""
     location = LocationResponseSerializer(

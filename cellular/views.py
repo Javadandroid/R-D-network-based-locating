@@ -12,6 +12,8 @@ from .utils.geometry import (
     weighted_centroid,
     trilaterate_three,
     distance_from_ta,
+    earfcn_to_freq_mhz,
+    estimate_ref_loss_from_earfcn,
 )
 from .utils.cleaners import clean_cells
 from .serializers import (
@@ -21,6 +23,8 @@ from .serializers import (
     LocateUserResponseSerializer,
     CalibrationRequestSerializer,
     CalibrationResponseSerializer,
+    RefLossRequestSerializer,
+    RefLossResponseSerializer,
 )
 import logging
 
@@ -275,3 +279,48 @@ class CalibrationView(APIView):
         resp = {"n_effective": float(n_effective), "details": {"distance_m": f"{d:.2f}", "tx_used": str(tx_eff), "ref_loss_used": str(ref_eff)}}
         resp_ser = CalibrationResponseSerializer(resp)
         return Response(resp_ser.data, status=status.HTTP_200_OK)
+
+
+class RefLossView(APIView):
+    """Estimate REF_LOSS (reference path loss at 1m) from EARFCN or frequency.
+
+    Accepts `earfcn` or `freq_mhz` and optional antenna gains and system losses.
+    Returns an estimated `ref_loss_db` to use in the path-loss formula.
+    """
+
+    @extend_schema(
+        request=RefLossRequestSerializer,
+        responses=RefLossResponseSerializer,
+        description="Estimate REF_LOSS (dB) from `earfcn` or `freq_mhz`. Provide either field.",
+        summary="Estimate Reference Path Loss",
+        tags=["Calibration"]
+    )
+    def post(self, request, *args, **kwargs):
+        """POST: body should be JSON matching RefLossRequestSerializer"""
+        serializer = RefLossRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        freq = data.get("freq_mhz")
+        earfcn = data.get("earfcn")
+        # if freq not provided, try to derive from earfcn
+        if not freq and earfcn:
+            # earfcn may be int or string; helper will handle common cases
+            freq = earfcn
+
+        if not freq:
+            return Response({"error": "Provide either earfcn or freq_mhz"}, status=status.HTTP_400_BAD_REQUEST)
+
+        gt = data.get("gt_dbi", 15.0)
+        gr = data.get("gr_dbi", 0.0)
+        sys_losses = data.get("system_losses_db", 3.0)
+
+        ref_loss_db = estimate_ref_loss_from_earfcn(freq, gt_dbi=gt, gr_dbi=gr, system_losses_db=sys_losses)
+
+        resp = {
+            "freq_mhz": float(earfcn_to_freq_mhz(freq) if isinstance(freq, (int, float)) else float(freq)),
+            "ref_loss_db": float(ref_loss_db) if ref_loss_db is not None else None,
+            "details": {"gt_dbi": str(gt), "gr_dbi": str(gr), "system_losses_db": str(sys_losses)},
+        }
+
+        return Response(RefLossResponseSerializer(resp).data)
