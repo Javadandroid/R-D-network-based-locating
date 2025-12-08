@@ -183,7 +183,8 @@ If available, use the device's **Barometer** sensor to detect altitude changes r
 
 * **Logic Check:** If `Altitude` is high AND `RSRP` is strong but `TA` (Timing Advance) indicates a large distance, flag the location as "Low Confidence - High Rise Overshoot".
 
-# Network-Based Positioning: Challenges, Algorithms, & Implementation 📡
+# ${\color{#FEEE91}\textsf{Challenges, Algorithms, \& Implementation 📡)}}$
+
 
 This document outlines the technical hurdles of retrieving geolocation without GPS using Cellular Network data (LTE/GSM) and provides algorithmic solutions for various scenarios, from data collection to final positioning.
 
@@ -443,7 +444,7 @@ for (cell in allCellInfo) {
 
     validCells.add(cell) // Keep this valid cell ✅
 }
-
+```
 
 ---
 
@@ -496,3 +497,23 @@ Ensure you record these parameters for every scan:
 5.  **PCI (Physical Cell ID):** Vital for mapping neighbor cells.
 6.  **RSRP (Signal Strength):** To determine the "center" of the cell and calculate path loss.
 7.  **EARFCN:** Frequency band info (helps in estimating propagation characteristics).
+
+
+
+
+
+
+
+## References 📚
+
+1.  **Rappaport, T. S.** (2002). *Wireless Communications: Principles and Practice* (2nd ed.). Prentice Hall.
+    * *Reference for Path Loss Models and urban attenuation factors ($n$).*
+
+2.  **3GPP TS 36.214**. *Evolved Universal Terrestrial Radio Access (E-UTRA); Physical layer; Measurements.*
+    * *Standard definitions for RSRP, RSRQ, and Cell ID decoding.*
+
+3.  **3GPP TS 36.133**. *Requirements for support of radio resource management.*
+    * *Source for Timing Advance (TA) distance calculation standards.*
+
+4.  **Balanis, C. A.** (2016). *Antenna Theory: Analysis and Design* (4th ed.). Wiley.
+    * *Explanation of Side Lobes and Back Lobes causing near-field direction errors.*

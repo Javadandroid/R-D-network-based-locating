@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-nf*#(fbx+3v=)re$%qqq-ha08v7(95o)97%=_@thdv%52+t1&9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,10 +37,58 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
+    "cellular",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 100,
+    "DEFAULT_FILTER_BACKENDS": [
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+    ],
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': '🗺️ TowerCells RD - Geolocation API',
+    'DESCRIPTION': '''سیستم موقعیت‌یابی شبکه‌ای ایران
+    
+    **بر اساس داده‌های دکل‌های سلولی (Cell Tower Geolocation)**
+    
+    ### ویژگی‌ها:
+    - الگوریتم Trilateration
+    - فرمول Path Loss Model
+    - محاسبه جهت (Bearing)
+    - جبران انحراف (Back Lobe Correction)
+    
+    ### منابع داده:
+    - دیتابیس محلی
+    - API OpenCellID
+    - War Driving Collection
+    ''',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': True,
+    'SERVERS': [
+        {'url': 'http://localhost:8000', 'description': 'Local Development'},
+        {'url': 'https://api.towercells.ir', 'description': 'Production'},
+    ],
+    'CONTACT': {
+        'name': 'API Support',
+        'email': 'support@towercells.ir',
+    },
+    'LICENSE': {
+        'name': 'MIT',
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -120,3 +168,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ==================== CORS ====================
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+
+CORS_ALLOW_CREDENTIALS = True

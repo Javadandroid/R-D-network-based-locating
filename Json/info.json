@@ -92,3 +92,19 @@
     "deviceSoftwareVersion": "00"
   }
 }
+
+
+
+
+{
+  "mcc": 432,
+    "mnc": 11,
+    "lac": 41212
+    "cid": 24481814,
+    "pci": 4,
+    "radio_type": "lte"
+    "source": "unknown"
+    "lat": 35.756851
+    "lon": 51.415039
+    "tx_power": 
+}
