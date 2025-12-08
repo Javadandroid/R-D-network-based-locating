@@ -504,6 +504,180 @@ Ensure you record these parameters for every scan:
 
 
 
+## Calibration, REF_LOSS and Geometry Helpers (Implementation notes)
+
+This project includes several practical helpers for calibration and geometric computations used by the API and the backend positioning logic. The purpose of this section is to explain the implemented formulas, the assumptions behind them, and how to use the provided endpoints and helpers.
+
+### 1) Calibration (compute effective path-loss exponent `n`)
+
+Purpose: derive an environment-specific path-loss exponent `n_effective` from a single ground-truth sample so that RSS-based distance estimates become more realistic for the local environment.
+
+Inputs:
+- `tower_lat`, `tower_lon`: tower coordinates (WGS84 degrees)
+- `user_lat`, `user_lon`: ground-truth user coordinates
+- `rsrp`: measured RSRP in dBm at the user
+- optional `tx` (tower transmit power dBm) and `ref_loss` (reference loss at 1m, dB)
+
+Method:
+1. Compute the great-circle distance `d` (meters) between the tower and the user using Haversine.
+2. Use the path-loss inversion formula:
+
+The inversion used by the calibration endpoint is written here in mathematical form:
+
+$$
+n_{\mathrm{effective}} = \frac{(TX - RSRP) - REF\_LOSS}{10\,\log_{10}(d)}
+$$
+
+where:
+- $TX$ is the transmit power in dBm (provided or default),
+- $RSRP$ is the measured receive power in dBm at the user, and
+- $REF\_LOSS$ is the reference path loss at 1 m in dB (provided or estimated).
+
+where `TX` and `REF_LOSS` are supplied or fall back to defaults (e.g. TX ≈ 40 dBm, REF_LOSS ≈ 80 dB). The result `n_effective` should be validated and, if needed, clamped to reasonable bounds (e.g. 1.5–6.0) before saving.
+
+Endpoint: `POST /api/calibrate/` accepts the fields above and returns `{ "n_effective": <float>, "details": {...} }`.
+
+### 2) REF_LOSS estimator (reference path loss at 1 m)
+
+Purpose: produce a reasonable `REF_LOSS` (dB) value when the per-site constant is unknown. This value represents the expected free-space loss (plus small system losses) at a reference distance of 1 meter and is used as the additive constant in the path-loss model.
+
+Approach implemented:
+- Convert `earfcn` (if provided) to downlink frequency in MHz using a small band table for common LTE bands. If the caller already provides `freq_mhz`, that value is used directly.
+- Compute FSPL at 1 m (MHz units):
+
+The estimator follows the free-space path-loss (FSPL) expression in dB (specialized to 1 meter):
+
+$$
+\mathrm{FSPL}_{1\mathrm{m}} = 20\,\log_{10}(f_{\mathrm{MHz}}) + 32.44
+$$
+
+The project then adjusts FSPL by antenna gains and system losses to produce the reference loss constant:
+
+$$
+\mathrm{REF\_LOSS} = \mathrm{FSPL}_{1\mathrm{m}} - G_t - G_r + L_{\mathrm{sys}}
+$$
+
+where $G_t$ and $G_r$ are transmitter and receiver antenna gains (dBi), and $L_{\mathrm{sys}}$ is the combined system/cable loss (dB).
+
+where `G_t` is transmitter antenna gain (dBi), `G_r` is receiver antenna gain (dBi), and `L_sys` is estimated system/cable losses (dB).
+
+Endpoint: `POST /api/ref_loss/` accepts JSON `{ "earfcn": <int> }` or `{ "freq_mhz": <float> }` plus optional `gt_dbi`, `gr_dbi`, `system_losses_db`. It returns `{ "freq_mhz": <float>, "ref_loss_db": <float>, "details": {...} }`.
+
+Usage note: the estimator is a physics-based heuristic (FSPL) and should be used as a starting value. For best results, compute `REF_LOSS` from multiple ground-truth samples and/or apply the calibration endpoint to derive both `n` and a refined `REF_LOSS`.
+
+### 3) Geometry helpers implemented
+
+The file `cellular/utils/geometry.py` contains the following public helpers used by the API logic:
+
+- `calculate_distance(rsrp, tx_power=None, n=None, ref_loss=None)`
+    - Purpose: convert RSRP (dBm) into an approximate distance (meters) using the path-loss model. The implemented formula is:
+
+$$
+d = 10^{\frac{(TX - RSRP) - REF\_LOSS}{10\,n}}
+$$
+    - Behavior: uses project defaults from `settings.PATH_LOSS` when tower-specific values are missing; clamps results to a sensible range (e.g. 10 m — 50 km).
+
+- `distance_from_ta(ta)`
+    - Purpose: convert LTE Timing Advance (TA) into meters. The implementation uses the usual LTE approximation:
+
+$$
+d\approx TA \times 78\ \mathrm{m}
+$$
+
+    Returns `None` for invalid TA values.
+
+- `earfcn_to_freq_mhz(earfcn)`
+    - Purpose: convert common EARFCN (N_DL) values into DL frequency (MHz) using a small mapping for common bands (B1, B3, B7, B8, B20). If the supplied value already looks like MHz (e.g. 1800), it is returned as-is.
+
+- `estimate_ref_loss_from_earfcn(earfcn or freq_mhz, gt_dbi=15.0, gr_dbi=0.0, system_losses_db=3.0)`
+    - Purpose: compute `REF_LOSS` using FSPL@1m then adjust for antenna gains and system losses (see formulas above).
+
+- `estimate_bearing(cell_id)`
+    - Purpose: a pragmatic heuristic to estimate sector azimuth from the Cell ID when antenna azimuth is unknown. The implementation extracts lower bits of the cell id (sector) and maps a last-digit heuristic into an azimuth. This is not universal but gives useful directional priors for single-anchor fixes.
+
+- `calculate_new_coordinates(lat, lon, distance_meters, bearing)`
+    - Purpose: compute the destination point (lat, lon) given starting coordinates, a distance in meters and a bearing in degrees. Uses the great-circle (spherical) destination formula. Given start latitude $\phi_1$, longitude $\lambda_1$, bearing $\theta$ (radians) and angular distance $\delta = d/R$, the destination is:
+
+$$
+\phi_2 = \arcsin\big(\sin\phi_1\cos\delta + \cos\phi_1\sin\delta\cos\theta\big)
+$$
+
+$$
+\lambda_2 = \lambda_1 + \operatorname{atan2}\big(\sin\theta\sin\delta\cos\phi_1,\;\cos\delta - \sin\phi_1\sin\phi_2\big)
+$$
+
+where $R$ is Earth radius and outputs are converted back to degrees.
+
+- `weighted_centroid(towers)`
+    - Purpose: compute a position by weighting tower coordinates by signal strength (stronger RSRP → larger weight). The implemented weighting and centroid are:
+
+$$
+w_i = \frac{1}{|RSRP_i| + \varepsilon}
+$$
+
+$$
+\mathrm{Lat}_{\mathrm{user}} = \frac{\sum_i w_i\,\mathrm{Lat}_i}{\sum_i w_i},\quad
+\mathrm{Lon}_{\mathrm{user}} = \frac{\sum_i w_i\,\mathrm{Lon}_i}{\sum_i w_i}
+$$
+
+where $\varepsilon$ is a tiny constant to avoid division by zero.
+
+- `trilaterate_three(t1, t2, t3)`
+    - Purpose: perform planar trilateration using three towers (each a dict with `lat`, `lon`, `radius` in meters). After projecting lat/lon into a local Cartesian plane (x, y), the linear system solved is:
+
+$$
+A x + B y = C
+$$
+$$
+D x + E y = F
+$$
+
+with
+
+$$
+A = 2(x_2 - x_1),\quad B = 2(y_2 - y_1)
+$$
+
+$$
+C = r_1^2 - r_2^2 - x_1^2 + x_2^2 - y_1^2 + y_2^2
+$$
+
+$$
+D = 2(x_3 - x_2),\quad E = 2(y_3 - y_2)
+$$
+
+$$
+F = r_2^2 - r_3^2 - x_2^2 + x_3^2 - y_2^2 + y_3^2
+$$
+
+The solution (if the determinant $AE - BD \neq 0$) is computed as:
+
+$$
+x = \frac{C E - B F}{A E - B D},\quad y = \frac{A F - C D}{A E - B D}
+$$
+
+Finally the planar result is converted back to latitude/longitude by inverse projection.
+
+### Practical integration notes
+
+- Single-anchor flow: prefer `distance_from_ta(ta)` when TA exists. Otherwise use `calculate_distance(rsrp)` and then `calculate_new_coordinates` with either a known `antenna_azimuth` or `estimate_bearing(cell_id)` to produce a sector-constrained point and radius.
+- Two-anchor flow: use `weighted_centroid` over the two tower coordinates with RSRP-based weights.
+- Three-or-more: pick top-3 signals and run `trilaterate_three`. If trilateration fails (collinear towers, numerical issues), fallback to the weighted centroid of all anchors.
+
+### Recommendations
+
+- Use the calibration endpoint to derive `n_effective` for your coverage area whenever you can collect ground-truth samples. This single parameter dramatically reduces systematic bias in RSS-based distance estimates.
+- Combine physics-based estimators (REF_LOSS from FSPL) with empirical calibration — FSPL gives a sensible starting point, calibration adjusts for local clutter and antenna patterns.
+- Add unit tests for the geometry helpers (`calculate_distance`, `distance_from_ta`, `earfcn_to_freq_mhz`, `trilaterate_three`) to prevent regressions.
+
+This section documents the practical formulas and behaviours implemented in the project — keep these notes together with the API docs so future contributors understand both the math and the pragmatic fallbacks used in production code.
+
+### Formula references
+
+1. Free-space path loss (FSPL) and its dB representation: standard propagation texts and ITU recommendations; see Rappaport (Wireless Communications) and ITU notes on FSPL.
+2. Spherical (great-circle) destination formulas: standard geodetic sources (Haversine / spherical trigonometry).
+3. Trilateration linearization and circle intersection algebra: standard geometry/trilateration references (see e.g. Wikipedia: Trilateration).
+
 ## References 📚
 
 1.  **Rappaport, T. S.** (2002). *Wireless Communications: Principles and Practice* (2nd ed.). Prentice Hall.
@@ -517,3 +691,15 @@ Ensure you record these parameters for every scan:
 
 4.  **Balanis, C. A.** (2016). *Antenna Theory: Analysis and Design* (4th ed.). Wiley.
     * *Explanation of Side Lobes and Back Lobes causing near-field direction errors.*
+
+5.  **ITU-R Recommendation P.525-4**. Calculation of free-space attenuation. International Telecommunication Union (2019).
+    * Useful for the free-space path loss (FSPL) expression used to estimate REF_LOSS.
+
+6.  **Haversine formula — Wikipedia**. https://en.wikipedia.org/wiki/Haversine_formula
+    * Reference for the great-circle distance computation between two WGS84 coordinates.
+
+7.  **Trilateration — Wikipedia**. https://en.wikipedia.org/wiki/Trilateration
+    * Reference describing the algebraic formulation used for solving circle intersections in planar coordinates.
+
+8.  **Free-space path loss — Wikipedia**. https://en.wikipedia.org/wiki/Free-space_path_loss
+    * Background and derivation of the FSPL formula in dB used by the REF_LOSS estimator.
