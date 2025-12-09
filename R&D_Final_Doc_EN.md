@@ -488,7 +488,7 @@ If you have a ground truth (GPS) and a signal reading, you can reverse the formu
 
 $$n_{effective} = \frac{(TX - RSRP) - REF\_LOSS}{10 \cdot \log_{10}(d_{GPS})}$$
 
-# ${\color{#FEEE91}\textsf{2. REF\_LOSS Estimator Details (Reference Path Loss at 1m)}}$
+# ${\color{#FEEE91}\textsf{2. REF\\_LOSS Estimator Details (Reference Path Loss at 1m)}}$
 
 **Purpose:** Produce a reasonable `REF_LOSS` (dB) value when the per-site constant is unknown. This value represents the expected free-space loss (plus small system losses) at a reference distance of 1 meter and is used as the additive constant in the path-loss model.
 
