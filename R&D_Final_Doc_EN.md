@@ -9,7 +9,7 @@ _**Cellular Positioning**_ generally relies on 3 core methods, acting as a subst
 > 3. **TDoA / ToF (Time Difference of Arrival):** Precise calculation of signal round-trip time between the phone and multiple towers for triangulation. (High accuracy, complex mathematics)
 >     
 
-# ${\color{#FFA239}\textsf{Part 1: Network Evolution \& Mechanics}}$
+# ${\color{#FFA239}\textsf{Part 1: Network Evolution \\& Mechanics}}$
 
 Understanding how different generations communicate is vital for selecting the right positioning parameters.
 
@@ -57,7 +57,7 @@ All towers transmit on the same frequency simultaneously using unique codes.
 
 # ${\color{#FEEE91}\textsf{3. Generation 4 (LTE) Positioning Mechanics (eNodeB)}}$
 
-## ${\color{#8CE4FF}\textsf{Communication Mechanism (OFDMA \& PRS)}}$
+## ${\color{#8CE4FF}\textsf{Communication Mechanism (OFDMA \\& PRS)}}$
 
 LTE treats the frequency spectrum as a time-frequency grid.
 
@@ -116,7 +116,7 @@ Telecommunication towers broadcast **System Information Blocks (SIB)**. Even wit
 - **CID/ECI:** Unique Cell Identity.
     
 
-## ${\color{#8CE4FF}\textsf{B) Signal \& Timing}}$
+## ${\color{#8CE4FF}\textsf{B) Signal \\& Timing}}$
 
 - **RSSI/RSRP:** How "loud" the tower is (Distance proxy).
     
@@ -211,7 +211,7 @@ class CellMeasurement(models.Model):
         ]
 ```
 
-# ${\color{#FFA239}\textsf{Part 3: Technical Challenges \& Pre-Processing}}$
+# ${\color{#FFA239}\textsf{Part 3: Technical Challenges \\& Pre-Processing}}$
 
 Before running algorithms, raw modem data must be sanitized. Android APIs (`getAllCellInfo`) often return artifacts that cause massive errors.
 
@@ -312,7 +312,7 @@ Once data is cleaned, we select an algorithm based on the number of visible towe
     - _Note:_ This places the user in the "center of gravity" of the sector slice, reducing the maximum error compared to the tower location.
         
 
-# ${\color{#FEEE91}\textsf{Scenario B: Two Towers (Weighted Centroid \& Geometric Intersection)}}$
+# ${\color{#FEEE91}\textsf{Scenario B: Two Towers (Weighted Centroid \\& Geometric Intersection)}}$
 
 **Condition:** 2 distinct anchors (e.g., Dual SIM or Serving + 1 Strong Neighbor). With only two reference points, standard triangulation is impossible (infinite solutions). We use one of two methods:
 
@@ -459,9 +459,9 @@ def correct_slant_range(measured_dist_km, tower_h_m, user_h_m):
     return math.sqrt(measured_dist_km**2 - h_diff_km**2)
 ```
 
-# ${\color{#FFA239}\textsf{Part 5: Mathematical Models \& Implementation}}$
+# ${\color{#FFA239}\textsf{Part 5: Mathematical Models \\& Implementation}}$
 
-# ${\color{#FEEE91}\textsf{1. Physics: Calibration \& Path Loss}}$
+# ${\color{#FEEE91}\textsf{1. Physics: Calibration \\& Path Loss}}$
 
 To convert Signal Strength (RSRP) to Distance ($d$), we use the Log-Distance Path Loss Model.
 
