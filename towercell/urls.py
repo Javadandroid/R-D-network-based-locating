@@ -4,7 +4,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, Sp
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('cellular.urls')),  # فرض می‌کنیم اپلیکیشن شما اینجاست
+    path('api/', include('cellular.urls')),  
 
     # --- بخش‌های مربوط به Swagger ---
     # 1. تولید فایل Schema (نقشه اصلی API)
