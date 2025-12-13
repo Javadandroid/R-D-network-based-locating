@@ -9,6 +9,7 @@ from .utils.geometry import (
     calculate_distance,
     estimate_bearing,
     calculate_new_coordinates,
+    trilaterate_two_towers,
     weighted_centroid,
     trilaterate_three,
     distance_from_ta,
@@ -87,8 +88,10 @@ class LocateUserView(APIView):
             if ta_dist is not None:
                 # Use TA-derived distance; position assumed near tower along unknown bearing
                 radius = ta_dist
-                final_lat = tower_obj.lat
-                final_lon = tower_obj.lon
+                bearing_used = getattr(tower_obj, 'antenna_azimuth', None) if getattr(tower_obj, 'antenna_azimuth', None) is not None else estimate_bearing(tower_obj.cell_id)
+                coords = calculate_new_coordinates(tower_obj.lat, tower_obj.lon, radius, bearing_used)
+                final_lat = coords['lat']
+                final_lon = coords['lon']
                 confidence = 'high'
             else:
                 # Near-field heuristic: very strong signals are trusted as close
@@ -124,7 +127,7 @@ class LocateUserView(APIView):
                 )
                 towers_info.append({'lat': tower_obj.lat, 'lon': tower_obj.lon, 'rsrp': c['signalStrength']})
 
-            centroid = weighted_centroid(towers_info)
+            centroid = trilaterate_two_towers(towers_info[0], towers_info[1])
             if centroid is None:
                 return Response({"error": "Unable to compute centroid"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

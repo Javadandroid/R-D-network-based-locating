@@ -3,8 +3,8 @@ import sys
 import os
 
 # تنظیمات
-INPUT_FILE = 'iran.csv.gz'  # یا نام فایل اصلی بزرگ: 'MLS-full-cell-export-final.csv.gz'
-OUTPUT_FILE = 'Iran_Cells.csv'
+INPUT_FILE = 'openCellIdIranDatabase.csv.gz'  # یا نام فایل اصلی بزرگ: 'MLS-full-cell-export-final.csv.gz'
+OUTPUT_FILE = 'open_cell_id_iran_db.csv'
 TARGET_MCC = 432  # کد ایران
 
 # نام ستون‌های استاندارد موزیلا

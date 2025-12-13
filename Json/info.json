@@ -108,3 +108,25 @@
     "lon": 51.415039
     "tx_power": 
 }
+
+
+{
+  "cells": [
+    {
+      "cellId": 43693383,
+      "mcc": 432,
+      "mnc": 35,
+      "signalStrength": -69,
+      "lac": 22822,
+      "pci": 387
+    },
+{
+      "cellId": 23273217,
+      "mcc": 432,
+      "mnc": 11,
+      "signalStrength": -73,
+      "lac": 41212,
+      "pci": 286
+    }
+  ]
+}

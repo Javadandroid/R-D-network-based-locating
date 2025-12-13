@@ -53,8 +53,28 @@ def distance_from_ta(ta):
         return None
     if ta_int < 0 or ta_int > 10000:
         return None
+    elif ta_int == 0:
+        return 1 * 78.0
     return ta_int * 78.0
 
+
+def haversine_distance(lat1, lon1, lat2, lon2):
+    """فاصله دقیق بین دو نقطه جغرافیایی (متر)"""
+    R = 6371000.0
+    phi1, phi2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+    a = math.sin(dphi/2)**2 + math.cos(phi1)*math.cos(phi2) * math.sin(dlambda/2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    return R * c
+
+def calculate_bearing_between_coords(lat1, lon1, lat2, lon2):
+    """محاسبه زاویه (Azimuth) از نقطه 1 به نقطه 2"""
+    y = math.sin(math.radians(lon2 - lon1)) * math.cos(math.radians(lat2))
+    x = math.cos(math.radians(lat1)) * math.sin(math.radians(lat2)) - \
+        math.sin(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.cos(math.radians(lon2 - lon1))
+    bearing = math.degrees(math.atan2(y, x))
+    return (bearing + 360) % 360
 
 def earfcn_to_freq_mhz(earfcn):
     """Convert common LTE EARFCN (N_DL) to downlink frequency in MHz.
@@ -126,7 +146,7 @@ def estimate_bearing(cell_id):
     
     bearing_map = {
         0: 315.0,  # NW
-        1: 45.0,   # NE
+        1: 225.0,   # NE
         2: 135.0,  # SE
         3: 225.0,  # SW
         4: 0.0,    # N
@@ -163,6 +183,86 @@ def calculate_new_coordinates(lat, lon, distance_meters, bearing):
     }
 
 
+def find_circle_intersections(lat1, lon1, r1, lat2, lon2, r2):
+    """پیدا کردن دو نقطه برخورد دایره‌ها"""
+    d = haversine_distance(lat1, lon1, lat2, lon2)
+    
+    # کنترل خطا: دایره‌ها نمی‌رسند یا یکی داخل دیگری است
+    if d > r1 + r2 or d < abs(r1 - r2) or d == 0:
+        return []
+
+    a = (r1**2 - r2**2 + d**2) / (2 * d)
+    h = math.sqrt(max(0, r1**2 - a**2))
+    
+    # نقطه میانی P2
+    x2 = lat1 + a * (lat2 - lat1) / d
+    y2 = lon1 + a * (lon2 - lon1) / d
+    
+    # ضرایب تبدیل (تقریبی برای فواصل کوتاه)
+    m_per_deg_lat = 111000
+    m_per_deg_lon = 111000 * math.cos(math.radians(lat1))
+    
+    # نقطه اول
+    lat_i1 = x2 + (h * (lon2 - lon1) / d) / (m_per_deg_lat / 111000)
+    lon_i1 = y2 - (h * (lat2 - lat1) / d) / (m_per_deg_lon / 111000)
+    
+    # نقطه دوم
+    lat_i2 = x2 - (h * (lon2 - lon1) / d) / (m_per_deg_lat / 111000)
+    lon_i2 = y2 + (h * (lat2 - lat1) / d) / (m_per_deg_lon / 111000)
+    
+    return [
+        {'lat': lat_i1, 'lon': lon_i1},
+        {'lat': lat_i2, 'lon': lon_i2}
+    ]
+    
+def trilaterate_two_towers(t1, t2):
+    """
+    الگوریتم اصلی: محاسبه مکان با دو دکل
+    """
+    # 1. محاسبه شعاع اگر موجود نیست
+    # نکته: می‌توانید مقدار n را اینجا دستی تنظیم کنید (مثلاً n=4.5)
+    r1 = t1.get('radius')
+    if r1 is None: r1 = calculate_distance(t1.get('rsrp'), tx_power=t1.get('tx_power'))
+        
+    r2 = t2.get('radius')
+    if r2 is None: r2 = calculate_distance(t2.get('rsrp'), tx_power=t2.get('tx_power'))
+
+    # 2. پیدا کردن نقاط تقاطع
+    candidates = find_circle_intersections(
+        t1['lat'], t1['lon'], r1,
+        t2['lat'], t2['lon'], r2
+    )
+    
+    # اگر تقاطع نداشتند، از روش قدیمی استفاده کن
+    if not candidates:
+        return weighted_centroid([t1, t2])
+        
+    # 3. انتخاب بهترین نقطه با بررسی سکتورها
+    best_point = None
+    min_score = float('inf')
+    
+    for p in candidates:
+        score = 0
+        # بررسی دکل 1
+        b1 = calculate_bearing_between_coords(t1['lat'], t1['lon'], p['lat'], p['lon'])
+        sec1 = estimate_bearing(t1.get('cellId') or t1.get('cell_id'))
+        diff1 = abs(b1 - sec1)
+        if diff1 > 180: diff1 = 360 - diff1
+        score += diff1
+        
+        # بررسی دکل 2
+        b2 = calculate_bearing_between_coords(t2['lat'], t2['lon'], p['lat'], p['lon'])
+        sec2 = estimate_bearing(t2.get('cellId') or t2.get('cell_id'))
+        diff2 = abs(b2 - sec2)
+        if diff2 > 180: diff2 = 360 - diff2
+        score += diff2
+        
+        if score < min_score:
+            min_score = score
+            best_point = p
+            
+    return best_point
+    
 def weighted_centroid(towers):
     """Compute weighted centroid from list of towers.
     towers: iterable of dicts/items with 'lat','lon' and 'rsrp' (dBm) or 'weight'.
