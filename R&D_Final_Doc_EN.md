@@ -511,9 +511,15 @@ $$\mathrm{REF\_LOSS} = \mathrm{FSPL}_{1\mathrm{m}} - G_t - G_r + L_{\mathrm{sys}
 - $G_r$: Receiver antenna gain (dBi).
     
 - $L_{\mathrm{sys}}$: Combined system/cable loss (dB).
-    
 
-**Usage Note:** The estimator is a physics-based heuristic (FSPL) and should be used as a starting value. For best results, compute `REF_LOSS` from multiple ground-truth samples and/or apply the calibration endpoint.
+
+## ${\color{#8CE4FF}\textsf{Additional Notes About Calculation}}$
+
+- Macro cell sites (2G/3G/4G/5G) usually transmit about 20–40 W per sector, which is roughly 43–46 dBm per carrier, and Iranian operators are in the same range as global networks.
+- In your distance formula, TX and RSRP must both be in dBm, and REF_LOSS must be in dB so that the subtraction $TX - RSRP - REF\_LOSS$ is meaningful.
+- A practical default for a typical urban macro LTE/5G site is TX ≈ 43 dBm (about 20 W), and for stronger rural/long-range macros you can assume up to about 46 dBm.
+- For small cells / pico / indoor nodes, real TX is lower (around 30–37 dBm), so your default should be reduced accordingly.
+- For testing your formula, you can start with TX = 43 dBm, n between 2 and 3, and REF_LOSS equal to the path loss at a reference distance (for example 1 meter).
 
 # ${\color{#FEEE91}\textsf{3. Python Implementation}}$
 

@@ -9,21 +9,21 @@ class CellTower(models.Model):
         default=RadioType.LTE,
         help_text="Type of Radio (e.g., GSM, LTE, NR)"
     )
-    # --- شناسه یکتا (Global Identity) ---
+    # ---   (Global Identity) ---
     mcc = models.IntegerField(help_text="Mobile Country Code (e.g., 432)")
     mnc = models.IntegerField(help_text="Mobile Network Code (e.g., 35)")
     lac = models.IntegerField(null=True, blank=True, help_text="Location Area Code / TAC")
     cell_id = models.BigIntegerField(null=True, blank=True, help_text="CID / ECI (Identity)")
     
-    # --- شناسه فیزیکی (برای دکل‌های همسایه) ---
+    # ---information about the cell tower ---
     pci = models.IntegerField(null=True, blank=True, help_text="Physical Cell ID (0-503)")
     earfcn = models.IntegerField(null=True, blank=True, help_text="Frequency Channel")
 
-    # --- موقعیت مکانی (هدف نهایی) ---
+    # location information ---
     lat = models.FloatField()
     lon = models.FloatField()
-    
-    # --- اطلاعات سیگنال (اختیاری - میانگین قدرت دیده شده) ---
+
+    # --- signal information ---
     tx_power = models.IntegerField(
         default=40,  # مقدار پیش‌فرض اگر خالی باشد
         help_text="Transmission Power in dBm (Default: 40 for Urban Macro)"
@@ -33,8 +33,8 @@ class CellTower(models.Model):
         blank=True,
         help_text="Optional antenna azimuth (degrees 0-360) for this tower"
     )
-    
-    # --- متادیتای سیستم ---
+
+    # --- system metadata ---
     SOURCE_CHOICES = [
         ('MANUAL', 'Manual Entry'),
         ('API', 'Fetched from External API'),
