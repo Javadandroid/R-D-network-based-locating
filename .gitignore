@@ -1,0 +1,15 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+iran.csv.gz
+Iran_Cells_ooo.xlsx
+Iran_Cells.csv
+.env
+mls_iran.csv

@@ -1,0 +1,498 @@
+{
+    "gnssInfo": {
+        "clock": {},
+        "measurements": []
+    },
+    "location": {
+        "fused": {
+            "time": 1764649464854,
+            "speed": 0,
+            "extras": "",
+            "bearing": 0,
+            "accuracy": 17.192,
+            "altitude": 1515.4000244140625,
+            "latitude": 35.7913369,
+            "provider": "fused",
+            "longitude": 51.4705309,
+            "speedAccuracyMetersPerSecond": 1.5
+        },
+        "providers": {
+            "gps": {
+                "time": 1764600833000,
+                "speed": 0,
+                "extras": "Bundle[mParcelledData.dataSize=96]",
+                "bearing": 28.09,
+                "accuracy": 5.9,
+                "altitude": 1476,
+                "latitude": 35.79016166666667,
+                "provider": "gps",
+                "longitude": 51.46733833333333
+            },
+            "fused": {
+                "time": 1764649464854,
+                "speed": 0,
+                "extras": "",
+                "bearing": 0,
+                "accuracy": 17.192,
+                "altitude": 1515.4000244140625,
+                "latitude": 35.7913369,
+                "provider": "fused",
+                "longitude": 51.4705309
+            },
+            "network": {
+                "time": 1764649464842,
+                "speed": 0,
+                "extras": "",
+                "bearing": 0,
+                "accuracy": 17.192,
+                "altitude": 1515.4000244140625,
+                "latitude": 35.7913369,
+                "provider": "network",
+                "longitude": 51.4705309
+            },
+            "passive": {
+                "time": 1764649464854,
+                "speed": 0,
+                "extras": "",
+                "bearing": 0,
+                "accuracy": 17.192,
+                "altitude": 1515.4000244140625,
+                "latitude": 35.7913369,
+                "provider": "fused",
+                "longitude": 51.4705309
+            }
+        }
+    },
+    "correctLoc": {},
+    "deviceInfo": {
+        "ID": "AP3A.240905.015.A2",
+        "SDK": 35,
+        "Base": 1,
+        "Host": "pangu-build-component-system-847071-r42nm-9w285-39x5l",
+        "Type": "user",
+        "User": "builder",
+        "Board": "duchamp",
+        "Brand": "POCO",
+        "Model": "2311DRK48G",
+        "Device": "duchamp",
+        "DeviceID": "android_id",
+        "Android_ID": "08edfada07628b2d",
+        "FingerPrint": "POCO/duchamp_global/duchamp:15/AP3A.240905.015.A2/OS2.0.207.0.VNLMIXM:user/release-keys",
+        "Incremental": "OS2.0.207.0.VNLMIXM",
+        "Manufacture": "Xiaomi",
+        "Version Code": "15"
+    },
+    "availableWifi": {
+        "RSSI": -127,
+        "SSID": "<unknown ssid>",
+        "BSSID": "",
+        "frequency": -1,
+        "scanResults": [
+            {
+                "RSSI": -69,
+                "SSID": "",
+                "BSSID": "42:84:6a:55:59:49",
+                "frequency": 2447,
+                "timestamp": 555804508803,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -78,
+                "SSID": "",
+                "BSSID": "42:84:6a:55:59:48",
+                "frequency": 5180,
+                "timestamp": 555791592683,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -90,
+                "SSID": "STC-E-M6",
+                "BSSID": "e4:8d:8c:10:43:aa",
+                "frequency": 5745,
+                "timestamp": 555793051776,
+                "capabilities": "[ESS]"
+            },
+            {
+                "RSSI": -93,
+                "SSID": "",
+                "BSSID": "66:d1:54:0c:b4:cc",
+                "frequency": 5520,
+                "timestamp": 555792192315,
+                "capabilities": "[ESS]"
+            },
+            {
+                "RSSI": -77,
+                "SSID": "",
+                "BSSID": "42:ae:30:29:37:14",
+                "frequency": 2452,
+                "timestamp": 555792198265,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -78,
+                "SSID": "MobinNet-7964-2.4Ghz",
+                "BSSID": "78:72:64:12:d6:02",
+                "frequency": 2447,
+                "timestamp": 555804745695,
+                "capabilities": "[WPA2-PSK-TKIP+CCMP-128][RSN-PSK-TKIP+CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -84,
+                "SSID": "MobinNet-D602-5Ghz",
+                "BSSID": "78:72:64:02:d6:02",
+                "frequency": 5220,
+                "timestamp": 555804745649,
+                "capabilities": "[WPA2-PSK-TKIP+CCMP-128][RSN-PSK-TKIP+CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -90,
+                "SSID": "STC-E-2",
+                "BSSID": "4c:5e:0c:e1:54:b3",
+                "frequency": 5765,
+                "timestamp": 555793051779,
+                "capabilities": "[ESS]"
+            },
+            {
+                "RSSI": -92,
+                "SSID": "KADKHODA",
+                "BSSID": "9a:a9:42:41:ca:76",
+                "frequency": 5745,
+                "timestamp": 555793051772,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK+SAE-CCMP-128][ESS][MFPC]"
+            },
+            {
+                "RSSI": -79,
+                "SSID": "Irancell-TD-GP2101-575235",
+                "BSSID": "00:1f:fb:ea:b3:49",
+                "frequency": 2427,
+                "timestamp": 555793051742,
+                "capabilities": "[WPA2-PSK-TKIP+CCMP-128][RSN-PSK-TKIP+CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -82,
+                "SSID": "STC-E-N8-2",
+                "BSSID": "e4:8d:8c:f0:43:35",
+                "frequency": 5680,
+                "timestamp": 555793051769,
+                "capabilities": "[ESS]"
+            },
+            {
+                "RSSI": -81,
+                "SSID": "@@",
+                "BSSID": "00:23:54:66:0f:51",
+                "frequency": 2462,
+                "timestamp": 555804745662,
+                "capabilities": "[WPA2-PSK-CCMP-128+TKIP][RSN-PSK-CCMP-128+TKIP][WPA-PSK-CCMP-128+TKIP][ESS]"
+            },
+            {
+                "RSSI": -80,
+                "SSID": "ASAL",
+                "BSSID": "38:2c:4a:df:c5:44",
+                "frequency": 2437,
+                "timestamp": 555804745687,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -78,
+                "SSID": "POCO F5",
+                "BSSID": "fa:93:65:dd:ef:b7",
+                "frequency": 2437,
+                "timestamp": 555804745690,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -82,
+                "SSID": "Baran-2.4G",
+                "BSSID": "80:41:26:4d:3f:04",
+                "frequency": 2427,
+                "timestamp": 555804745679,
+                "capabilities": "[WPA-PSK-TKIP+CCMP-128][WPA2-PSK-TKIP+CCMP-128][RSN-PSK-TKIP+CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -87,
+                "SSID": "Mehdi Heibati 5G",
+                "BSSID": "e8:68:19:06:3d:b5",
+                "frequency": 5180,
+                "timestamp": 555793051732,
+                "capabilities": "[WPA-PSK-TKIP+CCMP-128][WPA2-PSK-TKIP+CCMP-128][RSN-PSK-TKIP+CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -84,
+                "SSID": "Moradi",
+                "BSSID": "40:ae:30:79:37:14",
+                "frequency": 2452,
+                "timestamp": 555804745658,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS][WPS]"
+            },
+            {
+                "RSSI": -78,
+                "SSID": "Bamiri2",
+                "BSSID": "40:ed:00:3d:6b:8f",
+                "frequency": 2422,
+                "timestamp": 555804745653,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS][WPS]"
+            },
+            {
+                "RSSI": -87,
+                "SSID": "STC-E-N11-1",
+                "BSSID": "e4:8d:8c:15:6e:ef",
+                "frequency": 5260,
+                "timestamp": 555793051746,
+                "capabilities": "[ESS]"
+            },
+            {
+                "RSSI": -86,
+                "SSID": "STC-E-N6",
+                "BSSID": "b8:69:f4:85:ea:19",
+                "frequency": 5180,
+                "timestamp": 555804745676,
+                "capabilities": "[ESS]"
+            },
+            {
+                "RSSI": -84,
+                "SSID": "VX-7A31FF",
+                "BSSID": "d2:58:fd:87:ac:54",
+                "frequency": 5785,
+                "timestamp": 555793051782,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -87,
+                "SSID": "Parinaz",
+                "BSSID": "74:ea:3a:ad:86:63",
+                "frequency": 2462,
+                "timestamp": 555793051760,
+                "capabilities": "[WPA2-PSK-TKIP][RSN-PSK-TKIP][ESS]"
+            },
+            {
+                "RSSI": -82,
+                "SSID": "Molaey",
+                "BSSID": "3c:84:6a:55:59:48",
+                "frequency": 5180,
+                "timestamp": 555804745638,
+                "capabilities": "[WPA-PSK-CCMP-128+TKIP][WPA2-PSK-CCMP-128+TKIP][RSN-PSK-CCMP-128+TKIP][ESS][WPS]"
+            },
+            {
+                "RSSI": -83,
+                "SSID": "Damavand",
+                "BSSID": "bc:0f:9a:64:13:82",
+                "frequency": 2457,
+                "timestamp": 555793051751,
+                "capabilities": "[WPA-PSK-TKIP+CCMP-128][WPA2-PSK-TKIP+CCMP-128][RSN-PSK-TKIP+CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -67,
+                "SSID": "Molaey",
+                "BSSID": "3c:84:6a:55:59:49",
+                "frequency": 2447,
+                "timestamp": 555804745627,
+                "capabilities": "[WPA-PSK-CCMP-128+TKIP][WPA2-PSK-CCMP-128+TKIP][RSN-PSK-CCMP-128+TKIP][ESS][WPS]"
+            },
+            {
+                "RSSI": -71,
+                "SSID": "FORTHING-A891101",
+                "BSSID": "e8:fb:1c:e2:a9:75",
+                "frequency": 2437,
+                "timestamp": 555804745685,
+                "capabilities": "[WPA2-PSK-CCMP-128+TKIP][RSN-PSK-CCMP-128+TKIP][WPA-PSK-CCMP-128+TKIP][ESS]"
+            },
+            {
+                "RSSI": -80,
+                "SSID": "Majedi_plus",
+                "BSSID": "ec:41:18:3c:c0:ab",
+                "frequency": 2432,
+                "timestamp": 555804745682,
+                "capabilities": "[WPA-PSK-TKIP+CCMP-128][WPA2-PSK-TKIP+CCMP-128][RSN-PSK-TKIP+CCMP-128][ESS][WPS]"
+            },
+            {
+                "RSSI": -85,
+                "SSID": " 1009425CK61-SEFROYEK-635376",
+                "BSSID": "48:a9:8a:44:7f:ee",
+                "frequency": 5600,
+                "timestamp": 555793051766,
+                "capabilities": "[ESS]"
+            },
+            {
+                "RSSI": -84,
+                "SSID": "Hossein",
+                "BSSID": "b0:4e:26:dd:55:98",
+                "frequency": 2437,
+                "timestamp": 555804745693,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -77,
+                "SSID": "MobinnetDADC",
+                "BSSID": "30:a2:20:de:da:dc",
+                "frequency": 2412,
+                "timestamp": 555804745673,
+                "capabilities": "[WPA-PSK-TKIP+CCMP-128][WPA2-PSK-TKIP+CCMP-128][RSN-PSK-TKIP+CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -83,
+                "SSID": "Bamiri2_5G",
+                "BSSID": "40:ed:00:3d:6b:8e",
+                "frequency": 5180,
+                "timestamp": 555793051735,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS][WPS]"
+            },
+            {
+                "RSSI": -90,
+                "SSID": "STC-E-N11-2",
+                "BSSID": "c4:ad:34:1f:75:d9",
+                "frequency": 5825,
+                "timestamp": 555804745669,
+                "capabilities": "[ESS]"
+            }
+        ]
+    },
+    "cellTowerInfo": {
+        "MccMnc": 1562,
+        "simState": 5,
+        "callState": 0,
+        "dataState": 2,
+        "phoneType": 1,
+        "allCellInfo": [
+            {
+                "ci": 43826494,
+                "dbm": -79,
+                "mcc": 432,
+                "mnc": 35,
+                "pci": 386,
+                "tac": 12462,
+                "rsrp": -79,
+                "rsrq": -8,
+                "type": "CellInfoLte",
+                "level": 4,
+                "rssnr": 0,
+                "earfcn": 3048,
+                "alphaLong": "Irancell",
+                "bandwidth": 2147483647,
+                "alphaShort": "Irancell",
+                "registered": true
+            },
+            {
+                "ci": 268435455,
+                "dbm": -73,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 197,
+                "tac": 65535,
+                "rsrp": -73,
+                "rsrq": -9,
+                "type": "CellInfoLte",
+                "level": 4,
+                "rssnr": 0,
+                "earfcn": 1800,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -80,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 386,
+                "tac": 65535,
+                "rsrp": -80,
+                "rsrq": -16,
+                "type": "CellInfoLte",
+                "level": 4,
+                "rssnr": 0,
+                "earfcn": 1800,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -91,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 197,
+                "tac": 65535,
+                "rsrp": -91,
+                "rsrq": -19,
+                "type": "CellInfoLte",
+                "level": 3,
+                "rssnr": 0,
+                "earfcn": 3048,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -92,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 285,
+                "tac": 65535,
+                "rsrp": -92,
+                "rsrq": -18,
+                "type": "CellInfoLte",
+                "level": 3,
+                "rssnr": 0,
+                "earfcn": 3048,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 23092246,
+                "dbm": -86,
+                "mcc": 432,
+                "mnc": 11,
+                "pci": 165,
+                "tac": 45216,
+                "rsrp": -86,
+                "rsrq": -12,
+                "type": "CellInfoLte",
+                "level": 3,
+                "rssnr": 0,
+                "earfcn": 425,
+                "alphaLong": "43211",
+                "bandwidth": 2147483647,
+                "alphaShort": "43211",
+                "registered": true
+            },
+            {
+                "ci": 268435455,
+                "dbm": -96,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 167,
+                "tac": 65535,
+                "rsrp": -96,
+                "rsrq": -18,
+                "type": "CellInfoLte",
+                "level": 2,
+                "rssnr": 0,
+                "earfcn": 425,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            }
+        ],
+        "networkType": 13,
+        "simOperator": "43211",
+        "dataActivity": 3,
+        "simCountryIso": "ir",
+        "signalStrength": "SignalStrength:{mCdma=CellSignalStrengthCdma: cdmaDbm=2147483647 cdmaEcio=2147483647 evdoDbm=2147483647 evdoEcio=2147483647 evdoSnr=2147483647 miuiLevel=0 mOptimizedLevel=0 level=0,mGsm=CellSignalStrengthGsm: rssi=2147483647 ber=2147483647 mTa=2147483647 miuiLevel=0 isNtnMode=false mLevel=0,mWcdma=CellSignalStrengthWcdma: ss=2147483647 ber=2147483647 rscp=2147483647 ecno=2147483647 miuiLevel=0 mOptimizedLevel=0 level=0,mTdscdma=CellSignalStrengthTdscdma: rssi=2147483647 ber=2147483647 rscp=2147483647 miuiLevel=0 mOptimizedLevel=0 level=0,mLte=CellSignalStrengthLte: rssi=-79 rsrp=-92 rsrq=-14 rssnr=1 cqiTableIndex=2147483647 cqi=0 ta=0 miuiLevel=5 mOptimizedLevel=0 level=4 parametersUseForLevel=0,mNr=CellSignalStrengthNr:{ csiRsrp = 2147483647 csiRsrq = 2147483647 csiCqiTableIndex = 2147483647 csiCqiReport = [] ssRsrp = 2147483647 ssRsrq = 2147483647 ssSinr = 2147483647 miuiLevel = 0 mOptimizedLevel = 0 level = 0 parametersUseForLevel = 0 timingAdvance = 2147483647 },primary=CellSignalStrengthLte,mNrAsPrimaryInNrNsa=false}",
+        "callStateString": 0,
+        "networkOperator": "43235",
+        "networkTypeName": 13,
+        "simOperatorName": "Irancell",
+        "isNetworkRoaming": false,
+        "gsmSignalStrength": 99,
+        "cellSignalStrengths": "[CellSignalStrengthLte: rssi=-79 rsrp=-92 rsrq=-14 rssnr=1 cqiTableIndex=2147483647 cqi=0 ta=0 miuiLevel=5 mOptimizedLevel=0 level=4 parametersUseForLevel=0]",
+        "networkOperatorName": "Verizon Wireless",
+        "deviceSoftwareVersion": "00"
+    }
+}

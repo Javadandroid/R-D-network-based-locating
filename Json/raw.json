@@ -1,0 +1,567 @@
+{
+    "gnssInfo": {
+        "clock": {},
+        "measurements": []
+    },
+    "location": {
+        "fused": {
+            "time": 1765370853700,
+            "speed": 0.7442305,
+            "extras": "",
+            "bearing": 35.546272,
+            "accuracy": 40.379,
+            "altitude": 1495.800048828125,
+            "latitude": 35.7576115,
+            "provider": "fused",
+            "longitude": 51.4149968,
+            "speedAccuracyMetersPerSecond": 0.24389946
+        },
+        "providers": {
+            "gps": {
+                "time": 1765341108000,
+                "speed": 0,
+                "extras": "Bundle[mParcelledData.dataSize=96]",
+                "bearing": 250.97,
+                "accuracy": 5.1,
+                "altitude": 1533.5,
+                "latitude": 35.790121666666664,
+                "provider": "gps",
+                "longitude": 51.47848166666666
+            },
+            "fused": {
+                "time": 1765370853700,
+                "speed": 0.7442305,
+                "extras": "",
+                "bearing": 35.546272,
+                "accuracy": 40.379,
+                "altitude": 1495.800048828125,
+                "latitude": 35.7576115,
+                "provider": "fused",
+                "longitude": 51.4149968
+            },
+            "network": {
+                "time": 1765370850207,
+                "speed": 0,
+                "extras": "Bundle[mParcelledData.dataSize=52]",
+                "bearing": 0,
+                "accuracy": 24.9,
+                "altitude": 1495.800048828125,
+                "latitude": 35.7575925,
+                "provider": "network",
+                "longitude": 51.4149799
+            },
+            "passive": {
+                "time": 1765370853700,
+                "speed": 0.7442305,
+                "extras": "",
+                "bearing": 35.546272,
+                "accuracy": 40.379,
+                "altitude": 1495.800048828125,
+                "latitude": 35.7576115,
+                "provider": "fused",
+                "longitude": 51.4149968
+            }
+        }
+    },
+    "correctLoc": {},
+    "deviceInfo": {
+        "ID": "AP3A.240905.015.A2",
+        "SDK": 35,
+        "Base": 1,
+        "Host": "pangu-build-component-system-847071-r42nm-9w285-39x5l",
+        "Type": "user",
+        "User": "builder",
+        "Board": "duchamp",
+        "Brand": "POCO",
+        "Model": "2311DRK48G",
+        "Device": "duchamp",
+        "DeviceID": "android_id",
+        "Android_ID": "08edfada07628b2d",
+        "FingerPrint": "POCO/duchamp_global/duchamp:15/AP3A.240905.015.A2/OS2.0.207.0.VNLMIXM:user/release-keys",
+        "Incremental": "OS2.0.207.0.VNLMIXM",
+        "Manufacture": "Xiaomi",
+        "Version Code": "15"
+    },
+    "sensorsInfo": {
+        "gravity": {
+            "x": -0.014095,
+            "y": 4.601138,
+            "z": 8.657554,
+            "values": [
+                -0.014095,
+                4.601138,
+                8.657554
+            ],
+            "accuracy": 3,
+            "timestamp": 1277193446067351,
+            "sensorName": "gravity",
+            "sensorType": 9,
+            "isAvailable": true
+        },
+        "pressure": {
+            "isAvailable": false
+        },
+        "gyroscope": {
+            "x": -0.0253,
+            "y": 0.433675,
+            "z": 0.1428625,
+            "values": [
+                -0.0253,
+                0.433675,
+                0.1428625
+            ],
+            "accuracy": 3,
+            "timestamp": 1277193302626247,
+            "sensorName": "lsm6dsoq_gyro",
+            "sensorType": 4,
+            "isAvailable": true
+        },
+        "accelerometer": {
+            "x": -0.40305,
+            "y": 2.4750001,
+            "z": 9.3490505,
+            "values": [
+                -0.40305,
+                2.4750001,
+                9.3490505
+            ],
+            "accuracy": 3,
+            "timestamp": 1277193589508601,
+            "sensorName": "lsm6dsoq_acc",
+            "sensorType": 1,
+            "isAvailable": true
+        },
+        "magneticField": {
+            "x": 10.6125,
+            "y": -10.44375,
+            "z": -35.325,
+            "values": [
+                10.6125,
+                -10.44375,
+                -35.325
+            ],
+            "accuracy": 3,
+            "timestamp": 1277193297479381,
+            "sensorName": "qmc6308",
+            "sensorType": 2,
+            "isAvailable": true
+        }
+    },
+    "availableWifi": {
+        "RSSI": -66,
+        "SSID": "\"One-Pub\"",
+        "BSSID": "78:72:5d:44:e7:2f",
+        "frequency": 5745,
+        "scanResults": [
+            {
+                "RSSI": -79,
+                "SSID": "AiR-WiFi_VAHID",
+                "BSSID": "30:89:d3:28:cb:e2",
+                "frequency": 2412,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -68,
+                "SSID": "MZW",
+                "BSSID": "78:72:5d:44:85:01",
+                "frequency": 2437,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -67,
+                "SSID": "One-Pub",
+                "BSSID": "78:72:5d:44:85:00",
+                "frequency": 2437,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -88,
+                "SSID": "AndroidAP_8533",
+                "BSSID": "1a:2f:a2:ad:a6:f4",
+                "frequency": 5200,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -70,
+                "SSID": "MZW",
+                "BSSID": "78:72:5d:44:ed:c1",
+                "frequency": 2412,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -77,
+                "SSID": "One-Pub",
+                "BSSID": "78:72:5d:25:15:20",
+                "frequency": 2462,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -53,
+                "SSID": "MZW",
+                "BSSID": "78:72:5d:44:e7:2e",
+                "frequency": 5745,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -68,
+                "SSID": "One-Pub",
+                "BSSID": "78:72:5d:44:ed:c0",
+                "frequency": 2412,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -55,
+                "SSID": "One-Pub",
+                "BSSID": "78:72:5d:44:e7:2f",
+                "frequency": 5745,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -84,
+                "SSID": "MZW",
+                "BSSID": "bc:26:c7:0a:b3:41",
+                "frequency": 2462,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -92,
+                "SSID": "MVNO",
+                "BSSID": "78:72:5d:47:de:0b",
+                "frequency": 5745,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -81,
+                "SSID": "Alireza phone",
+                "BSSID": "8e:7a:7e:0f:92:62",
+                "frequency": 5745,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK+SAE-CCMP-128][ESS][MFPC]"
+            },
+            {
+                "RSSI": -59,
+                "SSID": "One-Pub",
+                "BSSID": "78:72:5d:44:e7:20",
+                "frequency": 2437,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -59,
+                "SSID": "MZW",
+                "BSSID": "78:72:5d:44:e7:21",
+                "frequency": 2437,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -78,
+                "SSID": "MZW",
+                "BSSID": "78:72:5d:44:ee:61",
+                "frequency": 2412,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -74,
+                "SSID": "MZW",
+                "BSSID": "78:72:5d:fb:61:c1",
+                "frequency": 2412,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -90,
+                "SSID": "One-Pub",
+                "BSSID": "78:72:5d:47:de:0f",
+                "frequency": 5745,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -91,
+                "SSID": "MZW",
+                "BSSID": "78:72:5d:47:de:0e",
+                "frequency": 5745,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            },
+            {
+                "RSSI": -65,
+                "SSID": "Mi Phone",
+                "BSSID": "2e:33:24:fd:8a:0c",
+                "frequency": 2462,
+                "timestamp": 1277189828994,
+                "capabilities": "[WPA2-PSK-CCMP-128][RSN-PSK-CCMP-128][ESS]"
+            }
+        ]
+    },
+    "cellTowerInfo": {
+        "MccMnc": 1562,
+        "simState": 5,
+        "callState": 0,
+        "dataState": 0,
+        "phoneType": 1,
+        "allCellInfo": [
+            {
+                "ci": 44823819,
+                "dbm": -108,
+                "mcc": 432,
+                "mnc": 35,
+                "pci": 279,
+                "tac": 22822,
+                "rsrp": -108,
+                "rsrq": -18,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 1800,
+                "alphaLong": "Irancell",
+                "bandwidth": 2147483647,
+                "alphaShort": "Irancell",
+                "registered": true
+            },
+            {
+                "ci": 268435455,
+                "dbm": -109,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 279,
+                "tac": 65535,
+                "rsrp": -109,
+                "rsrq": -15,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 100,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -111,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 275,
+                "tac": 65535,
+                "rsrp": -111,
+                "rsrq": -20,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 1800,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -113,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 441,
+                "tac": 65535,
+                "rsrp": -113,
+                "rsrq": -18,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 100,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -113,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 149,
+                "tac": 65535,
+                "rsrp": -113,
+                "rsrq": -19,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 100,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -114,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 275,
+                "tac": 65535,
+                "rsrp": -114,
+                "rsrq": -20,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 100,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -115,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 279,
+                "tac": 65535,
+                "rsrp": -115,
+                "rsrq": -18,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 3048,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -118,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 441,
+                "tac": 65535,
+                "rsrp": -118,
+                "rsrq": -18,
+                "type": "CellInfoLte",
+                "level": 0,
+                "rssnr": 0,
+                "earfcn": 2850,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 24481814,
+                "dbm": -70,
+                "mcc": 432,
+                "mnc": 11,
+                "pci": 4,
+                "tac": 41212,
+                "rsrp": -70,
+                "rsrq": -6,
+                "type": "CellInfoLte",
+                "level": 4,
+                "rssnr": 0,
+                "earfcn": 425,
+                "alphaLong": "43211",
+                "bandwidth": 2147483647,
+                "alphaShort": "43211",
+                "registered": true
+            },
+            {
+                "ci": 268435455,
+                "dbm": -112,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 276,
+                "tac": 65535,
+                "rsrp": -112,
+                "rsrq": -16,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 1500,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -114,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 285,
+                "tac": 65535,
+                "rsrp": -114,
+                "rsrq": -18,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 1500,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -114,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 285,
+                "tac": 65535,
+                "rsrp": -114,
+                "rsrq": -15,
+                "type": "CellInfoLte",
+                "level": 1,
+                "rssnr": 0,
+                "earfcn": 38950,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            },
+            {
+                "ci": 268435455,
+                "dbm": -118,
+                "mcc": 2147483647,
+                "mnc": 2147483647,
+                "pci": 285,
+                "tac": 65535,
+                "rsrp": -118,
+                "rsrq": -18,
+                "type": "CellInfoLte",
+                "level": 0,
+                "rssnr": 0,
+                "earfcn": 3102,
+                "alphaLong": "",
+                "bandwidth": 2147483647,
+                "alphaShort": "",
+                "registered": false
+            }
+        ],
+        "networkType": 13,
+        "simOperator": "43211",
+        "dataActivity": 0,
+        "simCountryIso": "ir",
+        "signalStrength": "SignalStrength:{mCdma=CellSignalStrengthCdma: cdmaDbm=2147483647 cdmaEcio=2147483647 evdoDbm=2147483647 evdoEcio=2147483647 evdoSnr=2147483647 miuiLevel=0 mOptimizedLevel=0 level=0,mGsm=CellSignalStrengthGsm: rssi=2147483647 ber=2147483647 mTa=2147483647 miuiLevel=0 isNtnMode=false mLevel=0,mWcdma=CellSignalStrengthWcdma: ss=2147483647 ber=2147483647 rscp=2147483647 ecno=2147483647 miuiLevel=0 mOptimizedLevel=0 level=0,mTdscdma=CellSignalStrengthTdscdma: rssi=2147483647 ber=2147483647 rscp=2147483647 miuiLevel=0 mOptimizedLevel=0 level=0,mLte=CellSignalStrengthLte: rssi=-93 rsrp=-113 rsrq=-20 rssnr=-7 cqiTableIndex=2147483647 cqi=0 ta=0 miuiLevel=2 mOptimizedLevel=0 level=2 parametersUseForLevel=0,mNr=CellSignalStrengthNr:{ csiRsrp = 2147483647 csiRsrq = 2147483647 csiCqiTableIndex = 2147483647 csiCqiReport = [] ssRsrp = 2147483647 ssRsrq = 2147483647 ssSinr = 2147483647 miuiLevel = 0 mOptimizedLevel = 0 level = 0 parametersUseForLevel = 0 timingAdvance = 2147483647 },primary=CellSignalStrengthLte,mNrAsPrimaryInNrNsa=false}",
+        "callStateString": 0,
+        "networkOperator": "43235",
+        "networkTypeName": 13,
+        "simOperatorName": "Irancell",
+        "isNetworkRoaming": false,
+        "gsmSignalStrength": 99,
+        "cellSignalStrengths": "[CellSignalStrengthLte: rssi=-93 rsrp=-113 rsrq=-20 rssnr=-7 cqiTableIndex=2147483647 cqi=0 ta=0 miuiLevel=2 mOptimizedLevel=0 level=2 parametersUseForLevel=0]",
+        "networkOperatorName": "Verizon Wireless",
+        "deviceSoftwareVersion": "00"
+    }
+}
