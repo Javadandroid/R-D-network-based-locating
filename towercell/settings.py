@@ -83,34 +83,47 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': '🗺️ TowerCells RD - Geolocation API',
-    'DESCRIPTION': '''سیستم موقعیت‌یابی شبکه‌ای ایران
-    
-    **بر اساس داده‌های دکل‌های سلولی (Cell Tower Geolocation)**
-    
-    ### ویژگی‌ها:
-    - الگوریتم Trilateration
-    - فرمول Path Loss Model
-    - محاسبه جهت (Bearing)
-    - جبران انحراف (Back Lobe Correction)
-    
-    ### منابع داده:
-    - دیتابیس محلی
-    - API OpenCellID
-    - War Driving Collection
-    ''',
+    'TITLE': 'TowerCell Geolocation API',
+    'DESCRIPTION': '''
+Network-based geolocation API using cell tower signals.
+
+## Quick start
+1. Open **/api/schema/swagger-ui/** to browse and try endpoints.
+2. Pick an endpoint, click **Try it out**, then **Execute**.
+3. For authenticated endpoints, use **Authorize** in Swagger UI.
+
+## What this API does
+- Estimates user location from nearby cell towers (multilateration + signal models)
+- Provides tower search and import utilities
+- Includes calibration helpers (path-loss exponent, reference loss)
+
+## Notes
+- Input/output formats are documented per endpoint in Swagger.
+- Error responses include an `error` message and may include `details`.
+''',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': True,
-    'SERVERS': [
-        {'url': 'http://localhost:8000', 'description': 'Local Development'},
-        {'url': 'https://api.towercells.ir', 'description': 'Production'},
-    ],
+    # Use bundled static assets from `drf-spectacular-sidecar` for Swagger UI.
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    # Swagger UI UX tweaks (no custom HTML/CSS).
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'displayRequestDuration': True,
+        'docExpansion': 'none',
+        'filter': True,
+        'persistAuthorization': True,
+        'defaultModelsExpandDepth': -1,
+        'defaultModelExpandDepth': 2,
+        'tryItOutEnabled': True,
+        'syntaxHighlight': {'activate': True},
+    },
     'CONTACT': {
         'name': 'API Support',
-        'email': 'support@towercells.ir',
+        'email': 'javadandroid@gmail.com',
     },
     'LICENSE': {
-        'name': 'MIT',
+        'name': 'ONE',
     },
 }
 
@@ -130,7 +143,10 @@ ROOT_URLCONF = 'towercell.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # Project-level templates. We keep `BASE_DIR/templates` as the conventional
+        # location and also include `towercell/templates` since the current
+        # `home.html` lives there.
+        'DIRS': [BASE_DIR / 'templates', BASE_DIR / 'towercell' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -252,4 +252,3 @@ def build_anchor_markers(
             }
         )
     return anchors
-

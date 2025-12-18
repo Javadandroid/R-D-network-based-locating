@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+from .views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('cellular.urls')),  
+    path('', home, name='home'), 
 
     # --- بخش‌های مربوط به Swagger ---
     # 1. تولید فایل Schema (نقشه اصلی API)

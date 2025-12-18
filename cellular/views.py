@@ -59,18 +59,17 @@ class LocateUserView(APIView):
     @extend_schema(
         request=LocateUserRequestSerializer,
         responses=LocateUserResponseSerializer,
-        description="محاسبه موقعیت کاربر بر اساس سلول‌های دریافت شده",
+        description="Estimate the user's location from the submitted cell measurements.",
         summary="Locate User by Cell Towers",
         tags=["Positioning"]
     )
     def post(self, request):
         """
-        **Algorithm:**
-        1. Find Anchor Cell Towers in DB or via API
-        2. Search for tower details in DB or API
-        3. Calculate radius (meters) using Path Loss formula
-        4. Calculate bearing from Cell ID
-        5. Apply Back Lobe for weak signals
+        **How it works (high level):**
+        1. Resolve each cell to a tower record (DB first, then external sources if enabled).
+        2. Estimate distance (meters) from signal strength using a path-loss model.
+        3. Combine distances/bearings to estimate a best location.
+        4. Apply signal-direction heuristics (e.g., back-lobe correction) when needed.
         """
         # ✅ Validation with serializer
         serializer = LocateUserRequestSerializer(data=request.data)
@@ -80,7 +79,7 @@ class LocateUserView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # دریافت داده‌های validated
+        # read validated input
         cells_data = serializer.validated_data.get('cells', [])
 
         try:
@@ -95,12 +94,12 @@ class LocateUserView(APIView):
 
     
 class CellTowerCreateView(generics.CreateAPIView):
-    """ایجاد یک دکل سلولی جدید"""
+    """Create a new cell tower record."""
     queryset = CellTower.objects.all()
     serializer_class = CellTowerSerializer
     
     @extend_schema(
-        description="ایجاد یک دکل سلولی جدید در دیتابیس",
+        description="Create a new cell tower record in the database.",
         summary="➕ Create New Cell Tower",
         tags=["Towers"]
     )
@@ -109,51 +108,51 @@ class CellTowerCreateView(generics.CreateAPIView):
 
     
 class CellTowerSearchView(APIView):
-    """جستجوی دکل‌ها بر اساس MCC، MNC، LAC، PCI"""
+    """Search towers by MCC/MNC and optional identifiers."""
     
     @extend_schema(
         request=CellTowerSearchSerializer,
         responses={200: CellTowerSerializer(many=True)},
-        description="جستجوی دکل‌های سلولی بر اساس شناسه‌ها",
+        description="Search cell towers by identifiers (MCC/MNC required; others optional).",
         summary="🔍 Search Cell Towers",
         tags=["Towers"]
     )
     def post(self, request):
         """
-        **پارامترهای جستجو:**
-        - mcc: کد کشور (الزامی)
-        - mnc: کد اپراتور (الزامی)
-        - lac: Location Area Code (اختیاری)
-        - pci: Physical Cell ID (اختیاری)
-        - cell_id: Cell ID (اختیاری)
+        **Search fields:**
+        - `mcc`: Mobile Country Code (required)
+        - `mnc`: Mobile Network Code (required)
+        - `lac`: Location Area Code (optional)
+        - `pci`: Physical Cell ID (optional)
+        - `cell_id`: Cell ID (optional)
         """
-        # 1. اعتبارسنجی داده‌های ورودی
+        # 1) Validate input
         search_serializer = CellTowerSearchSerializer(data=request.data)
         search_serializer.is_valid(raise_exception=True)
         data = search_serializer.validated_data
 
-        # 2. ساخت فیلترهای جستجو (بهینه‌شده)
+        # 2) Build filters
         filters = {
             'mcc': data['mcc'],
             'mnc': data['mnc'],
         }
         
-        # اضافه کردن فیلترهای اختیاری تنها اگر موجود باشند
+        # add optional filters only when present
         for field in ['lac', 'pci', 'cell_id']:
             if field in data and data[field] is not None:
                 filters[field] = data[field]
 
-        # 3. جستجو در دیتابیس (با select_related برای بهترین پرفورمنس)
+        # 3) Query
         towers = CellTower.objects.filter(**filters)
 
-        # 4. Serialize و return
+        # 4) Serialize and return
         response_serializer = CellTowerSerializer(towers, many=True)
         return Response(response_serializer.data, status=status.HTTP_200_OK)
 
 
 
 class CalibrationView(APIView):
-    """محاسبه n_effective از یک نمونه ground-truth برای کالیبراسیون مدل"""
+    """Compute `n_effective` from a ground-truth sample (model calibration)."""
 
     @extend_schema(
         request=CalibrationRequestSerializer,
@@ -395,6 +394,9 @@ class SnapshotLocateView(APIView):
     """
 
     permission_classes = [AllowAny]
+    # Public endpoint (no session auth). Disable SessionAuthentication to avoid CSRF 403
+    # when the frontend sends cookies (credentials: "include").
+    authentication_classes: list[type[BaseAuthentication]] = []
 
     @extend_schema(
         request=SnapshotLocateRequestSerializer,

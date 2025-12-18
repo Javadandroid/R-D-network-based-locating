@@ -83,10 +83,14 @@ class DebugInfoSerializer(serializers.Serializer):
         help_text="cell tower source (API/DB/WARD)"
     )
     bearing_used = serializers.FloatField(
-        help_text=" calculated bearing (0-360 )"
+        help_text=" calculated bearing (0-360 )",
+        required=False,
+        allow_null=True,
     )
     signal = serializers.IntegerField(
-        help_text="signal strength used (dBm)"
+        help_text="signal strength used (dBm)",
+        required=False,
+        allow_null=True,
     )
     confidence = serializers.CharField(
         help_text="level of confidence (high/medium/low)",

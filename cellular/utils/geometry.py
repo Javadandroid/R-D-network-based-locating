@@ -126,30 +126,25 @@ def estimate_ref_loss_from_earfcn(earfcn, gt_dbi=15.0, gr_dbi=0.0, system_losses
     return ref_loss
 
 def estimate_bearing(cell_id):
-    """Estimate bearing (degrees) from cell ID using heuristic on last digit of Sector ID."""
+    """Estimate a rough sector bearing (degrees) from Cell ID (heuristic).
+
+    Notes:
+    - In many LTE deployments, ECI/Cell ID encodes a *sector/cell index* (often in the lowest 8 bits),
+      but it does NOT reliably encode the *physical antenna azimuth* (absolute direction).
+    - Without a per-site azimuth in DB (`antenna_azimuth`), any absolute bearing is a guess.
+    - We therefore map to a common tri-sector pattern (0/120/240) based on sector index.
+    """
     if not cell_id:
         return 0.0
     try:
-        # Correct heuristic: extract the Sector ID (lowest 8 bits) then use its last digit
-        sector = int(cell_id) % 256
-        last_digit = int(str(sector % 10)[-1])
+        # Heuristic: extract the Sector ID (lowest 8 bits) then bucket into 3 sectors.
+        sector_id = int(cell_id) % 256
+        sector_index = int(sector_id) % 3
     except Exception:
         return 0.0
     
-    bearing_map = {
-        0: 315.0,  # NW
-        1: 225.0,   # NE
-        2: 135.0,  # SE
-        3: 225.0,  # SW
-        4: 0.0,    # N
-        5: 90.0,   # E
-        6: 180.0,  # S
-        7: 270.0,  # W
-        8: 45.0,   # NE
-        9: 135.0,  # SE
-    }
-    
-    return bearing_map.get(last_digit, 0.0)
+    # Tri-sector (120°) default. Absolute rotation is unknown; this is only a weak prior.
+    return float({0: 0.0, 1: 120.0, 2: 240.0}.get(sector_index, 0.0))
 
 def calculate_new_coordinates(lat, lon, distance_meters, bearing):
     """
