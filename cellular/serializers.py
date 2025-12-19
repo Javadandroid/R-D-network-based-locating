@@ -9,6 +9,27 @@ class CellTowerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CellTowerMarkerSerializer(serializers.ModelSerializer):
+    """Lightweight tower serializer for map marker rendering."""
+
+    class Meta:
+        model = CellTower
+        fields = (
+            "id",
+            "radio_type",
+            "mcc",
+            "mnc",
+            "lac",
+            "cell_id",
+            "pci",
+            "earfcn",
+            "lat",
+            "lon",
+            "tx_power",
+            "source",
+        )
+
+
 class CellTowerSearchSerializer(serializers.Serializer):
     mcc = serializers.IntegerField(help_text="Mobile Country Code")
     mnc = serializers.IntegerField(help_text="Mobile Network Code")

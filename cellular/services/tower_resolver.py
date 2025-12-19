@@ -8,8 +8,9 @@ from django.conf import settings
 
 from cellular.choices import DatasetSource
 from cellular.models import CellTower, TowerLookupLog
-from cellular.services.providers.combain import lookup_combain_cell
-from cellular.services.providers.google_geolocation import lookup_google_geolocation
+from cellular.services.providers.base import normalize_radio_type
+from cellular.services.providers.combain import CombainProvider
+from cellular.services.providers.google_geolocation import GoogleGeolocationProvider
 from cellular.utils.cleaners import SENTINEL_CI, SENTINEL_INT_MAX, SENTINEL_TAC
 from cellular.utils.geometry import haversine_distance
 
@@ -36,10 +37,19 @@ class TowerResolver:
         self.reference_lat = reference_lat
         self.reference_lon = reference_lon
         self._cache: Dict[Tuple[Any, ...], ResolveResult] = {}
+        self._providers = []
+
+        combain_key = (getattr(settings, "COMBAIN_API_KEY", "") or "").strip()
+        google_key = (getattr(settings, "GOOGLE_GEOLOCATION_API_KEY", "") or "").strip()
+        if combain_key:
+            self._providers.append(CombainProvider(api_key=combain_key))
+        if google_key:
+            self._providers.append(GoogleGeolocationProvider(api_key=google_key))
 
     def resolve(
         self,
         *,
+        radio_type: str | None = None,
         mcc: int | None,
         mnc: int | None,
         cell_id: int | None,
@@ -49,11 +59,12 @@ class TowerResolver:
         signal_strength: int | None = None,
         allow_external: bool = False,
     ) -> ResolveResult:
-        cache_key = (mcc, mnc, cell_id, lac, pci, earfcn, signal_strength, bool(allow_external))
+        cache_key = (radio_type, mcc, mnc, cell_id, lac, pci, earfcn, signal_strength, bool(allow_external))
         if cache_key in self._cache:
             return self._cache[cache_key]
 
         result = self._resolve_uncached(
+            radio_type=radio_type,
             mcc=mcc,
             mnc=mnc,
             cell_id=cell_id,
@@ -69,6 +80,7 @@ class TowerResolver:
     def _resolve_uncached(
         self,
         *,
+        radio_type: str | None,
         mcc: int | None,
         mnc: int | None,
         cell_id: int | None,
@@ -91,6 +103,7 @@ class TowerResolver:
         # 3) Paid providers (Combain/Google) -> upsert into DB
         if allow_external:
             external = self._lookup_external_and_upsert(
+                radio_type=radio_type,
                 mcc=mcc,
                 mnc=mnc,
                 cell_id=cell_id,
@@ -158,6 +171,7 @@ class TowerResolver:
     def _lookup_external_and_upsert(
         self,
         *,
+        radio_type: str | None,
         mcc: int | None,
         mnc: int | None,
         cell_id: int | None,
@@ -176,84 +190,35 @@ class TowerResolver:
         pci_i = None if pci is None or _is_sentinel(pci) else int(pci)
         earfcn_i = None if earfcn is None or _is_sentinel(earfcn) else int(earfcn)
 
-        providers: list[tuple[str, str]] = []
-        combain_key = (getattr(settings, "COMBAIN_API_KEY", "") or "").strip()
-        google_key = (getattr(settings, "GOOGLE_GEOLOCATION_API_KEY", "") or "").strip()
-        if combain_key:
-            providers.append(("COMBAIN", combain_key))
-        if google_key:
-            providers.append(("GOOGLE", google_key))
-        if not providers:
+        if not self._providers:
             return None
 
-        for provider_name, key in providers:
+        rt = normalize_radio_type(radio_type or "lte")
+
+        for provider in self._providers:
+            provider_name = getattr(provider, "name", "PROVIDER")
             request_url = ""
             request_body: Optional[Dict[str, Any]] = None
             response_body: Optional[Dict[str, Any]] = None
             try:
-                if provider_name == "COMBAIN":
-                    request_url = "https://apiv2.combain.com"
-                    request_body = {
-                        "radioType": "LTE",
-                        "cellTowers": [
-                            {
-                                "mobileCountryCode": mcc_i,
-                                "mobileNetworkCode": mnc_i,
-                                **({"locationAreaCode": lac_i} if lac_i is not None else {}),
-                                "cellId": cell_id_i,
-                                **({"signalStrength": int(signal_strength)} if signal_strength is not None else {}),
-                            }
-                        ],
-                    }
-                    result = lookup_combain_cell(
-                        api_key=key,
-                        mcc=mcc_i,
-                        mnc=mnc_i,
-                        lac=lac_i,
-                        cell_id=cell_id_i,
-                        radio_type="LTE",
-                        signal_strength=signal_strength,
-                        timeout_s=10.0,
-                    )
-                    if not result:
-                        continue
-                    lat, lon, accuracy_m = float(result.lat), float(result.lon), result.accuracy_m
-                    response_body = result.raw
-                    src = DatasetSource.COMBAIN
-                    src_label = "COMBAIN"
-
-                elif provider_name == "GOOGLE":
-                    request_url = "https://www.googleapis.com/geolocation/v1/geolocate"
-                    request_body = {
-                        "considerIp": False,
-                        "cellTowers": [
-                            {
-                                "mobileCountryCode": mcc_i,
-                                "mobileNetworkCode": mnc_i,
-                                **({"locationAreaCode": lac_i} if lac_i is not None else {}),
-                                "cellId": cell_id_i,
-                                **({"signalStrength": int(signal_strength)} if signal_strength is not None else {}),
-                            }
-                        ],
-                    }
-                    result = lookup_google_geolocation(
-                        api_key=key,
-                        mcc=mcc_i,
-                        mnc=mnc_i,
-                        lac=lac_i,
-                        cell_id=cell_id_i,
-                        signal_strength=signal_strength,
-                        consider_ip=False,
-                        timeout_s=10.0,
-                    )
-                    if not result:
-                        continue
-                    lat, lon, accuracy_m = float(result.lat), float(result.lon), result.accuracy_m
-                    response_body = result.raw
-                    src = DatasetSource.GOOGLE
-                    src_label = "GOOGLE"
-                else:
+                lookup = provider.lookup(
+                    mcc=mcc_i,
+                    mnc=mnc_i,
+                    lac=lac_i,
+                    cell_id=cell_id_i,
+                    radio_type=rt,
+                    signal_strength=signal_strength,
+                    timeout_s=10.0,
+                )
+                if not lookup:
                     continue
+
+                lat, lon, accuracy_m = float(lookup.lat), float(lookup.lon), lookup.accuracy_m
+                request_url = lookup.request_url
+                request_body = lookup.request_body
+                response_body = lookup.raw
+                src = getattr(provider, "dataset_source", DatasetSource.OTHER)
+                src_label = provider_name
 
                 try:
                     TowerLookupLog.objects.create(
@@ -281,7 +246,7 @@ class TowerResolver:
                     cell_id=cell_id_i,
                     lac=lac_i,
                     defaults={
-                        "radio_type": "lte",
+                        "radio_type": rt,
                         "pci": pci_i,
                         "earfcn": earfcn_i,
                         "range_m": int(accuracy_m) if accuracy_m is not None else None,
@@ -347,4 +312,3 @@ class TowerResolver:
                 continue
 
         return None
-

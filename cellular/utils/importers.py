@@ -4,6 +4,7 @@ from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 from django.db import transaction
 from django.db.models import Q
+from django.utils import timezone
 
 from cellular.models import CellTower
 from cellular.choices import DatasetSource
@@ -152,6 +153,15 @@ def import_towers_from_csv(
             created_count += len(chunk)
 
         if update_existing and rows_to_update:
+            # bulk_update does not trigger auto_now, so update timestamps manually.
+            now = timezone.now()
+            deduped: Dict[int, CellTower] = {}
+            for obj in rows_to_update:
+                if obj.pk is not None:
+                    obj.updated_at = now
+                    deduped[int(obj.pk)] = obj
+            rows_to_update = list(deduped.values())
+
             CellTower.objects.bulk_update(
                 rows_to_update,
                 [
@@ -170,6 +180,9 @@ def import_towers_from_csv(
                     "tx_power",
                     "antenna_azimuth",
                     "source",
+                    "checked_count",
+                    "verified_count",
+                    "updated_at",
                 ],
                 batch_size=BATCH_SIZE,
             )

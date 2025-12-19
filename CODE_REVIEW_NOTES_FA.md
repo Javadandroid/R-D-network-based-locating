@@ -49,17 +49,17 @@
   - سپس در صورت مجاز بودن: Combain/Google و upsert به DB + ثبت در `TowerLookupLog`
 
 ### Endpointهای اصلی
-در `cellular/urls.py` (همه زیر `towercell/urls.py` با پیشوند `/api/`):
-- `POST /api/locate/` محاسبه موقعیت از لیست سل‌ها
-- `POST /api/towers/add/` ایجاد یک دکل (فعلاً بدون محدودیت دسترسی مشخص در view)
-- `POST /api/towers/search/` جستجوی دکل‌ها
-- `POST /api/towers/within/` دکل‌ها داخل bounding box (برای نقشه)
-- `POST /api/towers/import/` Import مستقیم CSV (با API Key)
-- `POST /api/towers/import-start/` Import شبه-async (thread) + `GET /api/towers/import-status/<job_id>/`
-- `POST /api/snapshot/locate/` دریافت Snapshot از endpoint خارجی (با allowlist ضد SSRF) و locate
-- `GET /api/system/db-info/` اطلاعات DB (در `DEBUG=True` عمومی است)
-- `POST /api/calibrate/` محاسبه `n_effective` با ground-truth
-- `POST /api/ref_loss/` تخمین `REF_LOSS` از EARFCN/فرکانس
+Endpointهای اصلی (نسخه‌بندی‌شده زیر `/api/v1/`؛ مسیرهای قدیمی `/api/` هم فعلاً alias هستند):
+- `POST /api/v1/locate/` محاسبه موقعیت از لیست سل‌ها
+- `POST /api/v1/towers/add/` ایجاد یک دکل
+- `POST /api/v1/towers/search/` جستجوی دکل‌ها
+- `POST /api/v1/towers/within/` دکل‌ها داخل bounding box (برای نقشه)
+- `POST /api/v1/towers/import/` Import مستقیم CSV (با API Key)
+- `POST /api/v1/towers/import-start/` Import شبه-async (thread) + `GET /api/v1/towers/import-status/<job_id>/`
+- `POST /api/v1/snapshot/locate/` دریافت Snapshot از endpoint خارجی (با allowlist ضد SSRF) و locate
+- `GET /api/v1/system/db-info/` اطلاعات DB
+- `POST /api/v1/calibrate/` محاسبه `n_effective` با ground-truth
+- `POST /api/v1/ref_loss/` تخمین `REF_LOSS` از EARFCN/فرکانس
 
 ---
 
@@ -69,7 +69,7 @@
 - React + Vite + Leaflet (`front/`)
 - قابلیت‌ها:
   - نقشه + پین‌ها + دایره‌ها + خط‌کش
-  - دریافت Markerهای دکل در محدوده‌ی نقشه (`/api/towers/within/`)
+  - دریافت Markerهای دکل در محدوده‌ی نقشه (`/api/v1/towers/within/`)
   - Import CSV (start + polling)
   - Snapshot Locate (ارسال endpoint + snapshot_id و نمایش جدول سل‌ها و نتایج)
   - بخش AI برای ساخت پین از متن (Gemini)
@@ -181,7 +181,7 @@
   - `earfcn_to_freq_mhz` و `estimate_ref_loss_from_earfcn`
   - `trilaterate_three` (سناریوهای ساده با جواب معلوم)
 - تست API (حداقل smoke):
-  - `/api/locate/` برای ۱/۲/۳ دکل و اطمینان از عدم 500
+  - `/api/v1/locate/` برای ۱/۲/۳ دکل و اطمینان از عدم 500
 - سنجه‌های عملی:
   - Median error (m) روی دیتای snapshotها
   - نرخ «tower resolved» از DB vs external
@@ -195,4 +195,3 @@
 - Import برای دیتای ایران باید chunk/stream باشد؛ مدل in-memory فعلی به دیتای بزرگ نمی‌خورد.
 - برای سرعت `towers/within` در دیتای بزرگ، PostGIS و index فضایی تقریباً ضروری است.
 - snapshot locate با allowlist ضد SSRF خوب شروع شده، ولی باید کنترل هزینه‌ی external lookups و caching جدی‌تر شود.
-

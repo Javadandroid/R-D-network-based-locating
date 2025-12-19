@@ -21,10 +21,12 @@ def fetch_and_save_tower(
     reference_lat=None,
     reference_lon=None,
     *,
+    radio_type=None,
     allow_external: bool = False,
 ):
     resolver = TowerResolver(reference_lat=reference_lat, reference_lon=reference_lon)
     result = resolver.resolve(
+        radio_type=radio_type,
         mcc=None if _is_sentinel(mcc) else int(mcc),
         mnc=None if _is_sentinel(mnc) else int(mnc),
         cell_id=None if _is_sentinel(cell_id) else int(cell_id),
@@ -37,4 +39,3 @@ def fetch_and_save_tower(
 
 
 __all__ = ["fetch_and_save_tower"]
-

@@ -14,6 +14,17 @@ import os
 from pathlib import Path
 
 
+def _env_bool(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in ("1", "true", "yes", "y", "on")
+
+
+def _env_csv(name: str) -> list[str]:
+    return [p.strip() for p in os.getenv(name, "").split(",") if p and p.strip()]
+
+
 def _load_dotenv(path: Path) -> None:
     """
     Minimal .env loader for local development (no external dependency).
@@ -48,12 +59,21 @@ _load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nf*#(fbx+3v=)re$%qqq-ha08v7(95o)97%=_@thdv%52+t1&9'
+DEBUG = _env_bool("DJANGO_DEBUG", default=True)
+
+SECRET_KEY = (os.getenv("DJANGO_SECRET_KEY") or os.getenv("SECRET_KEY") or "").strip()
+if not SECRET_KEY and DEBUG:
+    # Dev fallback only. In production provide DJANGO_SECRET_KEY.
+    SECRET_KEY = "django-insecure-dev-only"
+if not DEBUG and (not SECRET_KEY or SECRET_KEY.startswith("django-insecure")):
+    raise ValueError("DJANGO_SECRET_KEY must be set to a strong value when DJANGO_DEBUG=false")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = _env_csv("DJANGO_ALLOWED_HOSTS")
+if not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ["*"] if DEBUG else []
+if not DEBUG and not ALLOWED_HOSTS:
+    raise ValueError("DJANGO_ALLOWED_HOSTS must be set when DJANGO_DEBUG=false")
 
 
 # Application definition
@@ -88,7 +108,7 @@ SPECTACULAR_SETTINGS = {
 Network-based geolocation API using cell tower signals.
 
 ## Quick start
-1. Open **/api/schema/swagger-ui/** to browse and try endpoints.
+1. Open **/api/v1/schema/swagger-ui/** to browse and try endpoints.
 2. Pick an endpoint, click **Try it out**, then **Execute**.
 3. For authenticated endpoints, use **Authorize** in Swagger UI.
 
@@ -290,13 +310,6 @@ IMPORT_API_KEY = os.getenv("IMPORT_API_KEY", "").strip()
 # ==================== External Tower Resolver ====================
 COMBAIN_API_KEY = os.getenv("COMBAIN_API_KEY", "").strip()
 GOOGLE_GEOLOCATION_API_KEY = os.getenv("GOOGLE_GEOLOCATION_API_KEY", "").strip()
-
-
-def _env_bool(name: str, default: bool = False) -> bool:
-    value = os.getenv(name)
-    if value is None:
-        return default
-    return value.strip().lower() in ("1", "true", "yes", "y", "on")
 
 
 # If enabled, snapshot neighbor towers may be resolved via external APIs (paid).

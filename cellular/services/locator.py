@@ -20,6 +20,7 @@ def locate_cells(
     *,
     reference_lat: float | None = None,
     reference_lon: float | None = None,
+    resolver: TowerResolver | None = None,
     allow_external_neighbors: bool = False,
     allow_external_serving: bool = True,
 ) -> Dict[str, Any]:
@@ -34,7 +35,8 @@ def locate_cells(
     if not cells:
         raise ValueError("No valid cells after cleaning")
 
-    resolver = TowerResolver(reference_lat=reference_lat, reference_lon=reference_lon)
+    if resolver is None:
+        resolver = TowerResolver(reference_lat=reference_lat, reference_lon=reference_lon)
 
     def _allow_external(cell: Dict[str, Any]) -> bool:
         return bool(allow_external_serving if cell.get("registered", True) else allow_external_neighbors)
@@ -45,6 +47,7 @@ def locate_cells(
     resolved_sources: list[str] = []
     for c in cells:
         res = resolver.resolve(
+            radio_type=c.get("radio_type"),
             mcc=c.get("mcc"),
             mnc=c.get("mnc"),
             cell_id=c.get("cellId"),
@@ -209,6 +212,7 @@ def build_anchor_markers(
     *,
     reference_lat: float | None = None,
     reference_lon: float | None = None,
+    resolver: TowerResolver | None = None,
     allow_external_neighbors: bool = False,
     allow_external_serving: bool = True,
 ) -> List[Dict[str, Any]]:
@@ -216,12 +220,14 @@ def build_anchor_markers(
     Best-effort: resolve first N cells to tower markers for visualization.
     """
     cells = clean_cells(cells_data)
-    resolver = TowerResolver(reference_lat=reference_lat, reference_lon=reference_lon)
+    if resolver is None:
+        resolver = TowerResolver(reference_lat=reference_lat, reference_lon=reference_lon)
 
     anchors: List[Dict[str, Any]] = []
     for idx, c in enumerate(cells[: max(0, int(limit))]):
         allow_external = allow_external_serving if c.get("registered", True) else allow_external_neighbors
         res = resolver.resolve(
+            radio_type=c.get("radio_type"),
             mcc=c.get("mcc"),
             mnc=c.get("mnc"),
             cell_id=c.get("cellId"),
